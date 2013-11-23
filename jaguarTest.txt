@@ -1,0 +1,16 @@
+program miprograma:
+
+int main(){
+	int _moysen;
+	_moysen = 1;
+	return 0;
+}
+
+void function(){
+	read();
+	write(1);
+	write(true);
+	write("cadena");
+	write(29.30);
+}
+programEnd
