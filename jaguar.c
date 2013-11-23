@@ -66,15 +66,19 @@ char *compareType(char *a, char *b){
 struct simbolo * search(char* id, char* scope){
   struct simbolo *sp = &tablaSimbolos[idToHash(id)%TableHash]; //obtener entrada
   int scount = TableHash;
-	
+	printf("Voy al While\n");
   while(--scount >= 0) {
+	printf("Voy al primer if\n");
     if(sp->name && !strcmp(sp->name, id)) { return sp; }
 		
+
+	printf("Pase al segundo if\n");
     if(!sp->name) {		/* Entrada Vacia */
       		yyerror("Se utilizo variable antes de declarar\n");
 			abort();
     }
 		
+	printf("Voy a seguir intentando\n");
     if(++sp >= tablaSimbolos+TableHash) {sp = tablaSimbolos; /* Seguir intentando */}
 	}
 
@@ -169,6 +173,8 @@ char *resultOperations(char *a, char *b, char *op){
 	}
 	return "";
 }
+
+int yyparse();
 
 int main(void){
 	return yyparse();

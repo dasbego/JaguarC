@@ -1,0 +1,24 @@
+program miprograma:
+
+struct mistrcut{
+	bool memo[10];
+	int julio;
+	bool _moysen;
+	string __allan;
+}
+
+int main(){
+	_moysen = function();
+	mistrcut.memo[1];
+	julio = mistrcut.memo[7];
+	return 0;
+}
+
+void function(){
+	read();
+	write(1);
+	write(true);
+	write("cadena");
+	write(29.30);
+}
+programEnd

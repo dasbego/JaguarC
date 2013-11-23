@@ -5,6 +5,7 @@
 #include <string.h>
 #include <stdlib.h>
 
+int yylex();
 char scope[50];
 
 %}
