@@ -7,7 +7,6 @@ struct simbolo {		/* Nombre de la variable */
 //char *compareType(char*a,char*b, char * );
 char *resultOperations(char *a, char *b, char *op);
 
-
 //tamano y tabla de simbolos
 #define TableHash 9990
 struct simbolo tablaSimbolos[TableHash];

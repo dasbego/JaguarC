@@ -174,6 +174,10 @@ char *resultOperations(char *a, char *b, char *op){
 	return "";
 }
 
+void printSimbTable(){
+	
+}
+
 int yyparse();
 
 int main(void){
