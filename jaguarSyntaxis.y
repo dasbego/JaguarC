@@ -87,7 +87,7 @@ varstruct: variable ';' sigvarStruct {
 ;
 
 sigvarStruct: /*ya no hay variables*/ {$$="";}
-			| varstruct { $$=$1}
+			| varstruct {$$=$1;}
 ;
 
 attrstruct: ID "." ID {
@@ -204,10 +204,9 @@ lista_funciones: funcion lista_funciones {
 
 //Cuando se crea la funcion
 argumentos_declaracion: variable lista_argumentos{
+				char buff[350];
 			 	struct simbolo *st = $1;
-			 	insertTable(st->name, st->type);
-
-			 	char buff[350];
+			 	insertTable(st->name, st->type);			 	
 				if(strcmp($2,"")){
 					sprintf(buff,"%s",st->type);
 				}else{
@@ -219,10 +218,9 @@ argumentos_declaracion: variable lista_argumentos{
 ;
 
 lista_argumentos: ',' variable lista_argumentos {
-					struct simbolo *st = $2;
-			 		insertTable(st->name, st->type);
-
 					char buff[350];
+					struct simbolo *st = $2;
+			 		insertTable(st->name, st->type);					
 					if(strcmp($3,"")){
 						sprintf(buff,"%s",st->type);
 					}else{
