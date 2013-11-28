@@ -30,7 +30,7 @@ void insertTable(char *name, char *type){
   int scount = TableHash;		/* cuantos lugares hemos "visto" */
 	
   while(--scount >= 0) {
-    if(sp->name && strcmp(sp->name, name)) {
+    if(sp->name && (strcmp(sp->name, name)==0)) {
 			yyerror("Simbolo previamente declarado/n"); 
 		}
 		
@@ -38,7 +38,8 @@ void insertTable(char *name, char *type){
       sp->name = strdup(name);
 	  sp->type = strdup(type);
       tablaSimbolos[idToHash(name)%TableHash] = *sp;
-      //printSimbTable();
+      printSimbTable();
+      printf("---\n");
       
       return;
     }
@@ -69,6 +70,8 @@ struct simbolo * search(char* id){
   struct simbolo *sp = &tablaSimbolos[idToHash(id)%TableHash]; //obtener entrada
   int scount = TableHash;
 
+  // printf("a buscar: %s",id);
+  // printf("saque: %s",sp->name);
   while(--scount >= 0) {
     if(sp->name && !strcmp(sp->name, id)) { return sp; }
 		

@@ -1,8 +1,10 @@
 program miprograma:
 
-int main(){
+void myfunc(string a, int b);
+
+main(){
 	string bego;
 	bego="holi";
 	return 0;
 }
-programEn
+programEnd

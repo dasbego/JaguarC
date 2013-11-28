@@ -34,10 +34,10 @@ int yylex();
 %left '*' '/'
 
 //%type <c> program
-%type <sim> variable funcion
+%type <sim> variable funcion firma
 %type <c> varstruct lista_variables lista_argumentos argumentos_declaracion lista_funciones declaracionf expresion argumentos_llamada
 %type <c> sigvarStruct attrstruct expresion_aritmetica lista_ids valor iteracion estatuto_decision sino llamada_a_funcion
-%type <c> firma firmasFunciones
+%type <c> firmasFunciones lista_estructuras declaracionEst sigFirma principal
 %start s 
 
 %%  /* Grammar rules and actions follow */
@@ -45,17 +45,33 @@ int yylex();
 s: PROGRAM ID ':' program
 ;
 
-program: estructura firmasFunciones principal declaracionf PROGRAMEND {
+program: declaracionEst firmasFunciones declaracionf PROGRAMEND {
 	//printf("Scope: %s", MAIN);
 	//$$ = "";
 }
 ;
 
-principal:TYPE MAIN '(' argumentos_declaracion ')' '{' cuerpo '}'
+principal: MAIN '(' argumentos_declaracion ')' '{' cuerpo '}' {
+	$$="";
+}
 ;
 
-estructura: /*no hay estructuras*/
-			| STRUCT ID '{' varstruct '}' {
+declaracionEst: estructura lista_estructuras{
+	$$="";
+}
+| /*no hay estructuras*/ {
+	$$="";
+}
+;
+
+lista_estructuras: estructura lista_estructuras {
+	$$="";
+}
+| /*ya no hay mas estructuras*/ {
+	$$="";
+}
+
+estructura: STRUCT ID '{' varstruct '}' ';' {
 				/*cuando se declara un struct*/
 				char contStruct[300];
 				sprintf(contStruct, "Struct(%s)", $4);
@@ -94,21 +110,31 @@ attrstruct: ID "." ID {
 	}
 ;
 
-firmasFunciones: firma firmasFunciones {
+firmasFunciones: firma sigFirma principal {
+	struct simbolo *st = $1;
+	insertTable(st->name, st->type);
 	$$="";
 }
-| principal {$$="";}
+| principal
 ;
 
-firma: TYPE ID "(" argumentos_declaracion ")" ";"{
-	struct simbolo *st = search($2);
-	if(st){
-		yyerror("Funcion ya definida previamente.");
-		abort();
-	}else{
-		insertTable($2,$1);
-		$$="";
-	}
+sigFirma: firma sigFirma {
+	struct simbolo *st = $1;
+	insertTable(st->name, st->type);
+	$$="";
+}
+| /*ya no hay firmas*/ {
+	$$="";
+}
+;
+
+firma: TYPE ID '(' argumentos_declaracion ')' ';'{
+		printf("voy a crear el malloc");
+		// struct simbolo *st = malloc(sizeof(struct simbolo));
+		// char *type = $4;
+		// st->name = $2;
+		// sprintf(st->type, "(%s)->%s",type,$1);
+		// $$=st;
 }
 ;
 
@@ -128,7 +154,7 @@ variable: TYPE ID {
 		| TYPE ID '[' INTEGER ']'	{
 			struct simbolo *st = malloc(sizeof(struct simbolo));
 			char *type;
-			sprintf(type,"array(0..%d)",$4);
+			sprintf(type,"array(0..%d,%s)",$4, $1);
 			st->name = $2;
 			st->type = type;
 			$$ = st;
@@ -228,7 +254,7 @@ asignacion: ID '=' expresion {
 		/*buscar si existe id en este scope*/
 	struct simbolo *st = search($1);
 	if(st){
-		printf("A comparar: %s,%s",st->type, $3);
+		//printf("A comparar: %s,%s",st->type, $3);
 		if(strcmp(st->type,$3)){
 			yyerror("Tipos no compatibles para la asignacion");
 			abort();
