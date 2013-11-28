@@ -70,8 +70,6 @@ struct simbolo * search(char* id){
   struct simbolo *sp = &tablaSimbolos[idToHash(id)%TableHash]; //obtener entrada
   int scount = TableHash;
 
-  // printf("a buscar: %s",id);
-  // printf("saque: %s",sp->name);
   while(--scount >= 0) {
     if(sp->name && !strcmp(sp->name, id)) { return sp; }
 		

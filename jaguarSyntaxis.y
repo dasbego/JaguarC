@@ -87,11 +87,7 @@ varstruct: variable ';' sigvarStruct {
 ;
 
 sigvarStruct: /*ya no hay variables*/ {$$="";}
-<<<<<<< HEAD
 			| varstruct { $$=$1;}
-=======
-			| varstruct {$$=$1;}
->>>>>>> d1d9d9c5f95fa9590eb02bbe0499df7ce613a44c
 ;
 
 attrstruct: ID "." ID {
@@ -211,18 +207,14 @@ lista_funciones: funcion lista_funciones {
 argumentos_declaracion: variable lista_argumentos{
 				char buff[350];
 			 	struct simbolo *st = $1;
-<<<<<<< HEAD
 			 	insertTable(st->name, st->type);
-				sprintf(buff,"%s",st->type);
-=======
-			 	insertTable(st->name, st->type);			 	
-				if(strcmp($2,"")){
+			 	if(!strcmp($2,"")){
 					sprintf(buff,"%s",st->type);
+					$$ = buff;
 				}else{
-					sprintf(buff,"%sX%s", st->type, $2);
+					sprintf(buff,"%sX%s", st->type,$2);
+					$$ = buff;
 				}
->>>>>>> d1d9d9c5f95fa9590eb02bbe0499df7ce613a44c
-				$$ = buff;
 			}
 					|/*vacio*/ {$$ = "";}
 ;
@@ -231,12 +223,13 @@ lista_argumentos: ',' variable lista_argumentos {
 					char buff[350];
 					struct simbolo *st = $2;
 			 		insertTable(st->name, st->type);					
-					if(strcmp($3,"")){
+					if(!strcmp($3,"")){
 						sprintf(buff,"%s",st->type);
+						$$ = buff;
 					}else{
 						sprintf(buff,"%sX%s", st->type, $3);
+						$$ = buff;
 					}
-					$$ = buff;
 				}
 				| /*vacio*/ {$$ = "";}
 ;

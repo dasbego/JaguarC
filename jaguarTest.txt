@@ -1,6 +1,6 @@
 program miprograma:
 
-void myfunc(string a, int b);
+void myfunc(string a, int b, bool m, bool p);
 
 main(){
 	string bego;
