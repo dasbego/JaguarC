@@ -87,7 +87,7 @@ varstruct: variable ';' sigvarStruct {
 ;
 
 sigvarStruct: /*ya no hay variables*/ {$$="";}
-			| varstruct { $$=$1}
+			| varstruct { $$=$1;}
 ;
 
 attrstruct: ID "." ID {
@@ -129,12 +129,13 @@ sigFirma: firma sigFirma {
 ;
 
 firma: TYPE ID '(' argumentos_declaracion ')' ';'{
-		printf("voy a crear el malloc");
-		// struct simbolo *st = malloc(sizeof(struct simbolo));
-		// char *type = $4;
-		// st->name = $2;
-		// sprintf(st->type, "(%s)->%s",type,$1);
-		// $$=st;
+		//printf("voy a crear el malloc");
+		struct simbolo *st = malloc(sizeof(struct simbolo));
+		char type[300];
+		st->name = $2;
+		sprintf(type, "(%s)->%s",$4,$1);
+		st->type = type;
+		$$=st;
 }
 ;
 
@@ -204,15 +205,10 @@ lista_funciones: funcion lista_funciones {
 
 //Cuando se crea la funcion
 argumentos_declaracion: variable lista_argumentos{
+				char buff[350];
 			 	struct simbolo *st = $1;
 			 	insertTable(st->name, st->type);
-
-			 	char buff[350];
-				if(strcmp($2,"")){
-					sprintf(buff,"%s",st->type);
-				}else{
-					sprintf(buff,"%sX%s", st->type, $2);
-				}
+				sprintf(buff,"%s",st->type);
 				$$ = buff;
 			}
 					|/*vacio*/ {$$ = "";}

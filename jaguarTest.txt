@@ -5,6 +5,5 @@ void myfunc(string a, int b);
 main(){
 	string bego;
 	bego="holi";
-	return 0;
 }
 programEnd
