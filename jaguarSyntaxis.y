@@ -213,10 +213,8 @@ argumentos_declaracion: variable lista_argumentos{
 				buff = st->type;
 				printf("regreso %s\n", buff);
 				char *tmp;
-				int i=0;
-				while(*buff){
-					tmp[i++]=*buff++;
-				}
+				tmp = st->type;
+				strcat(tmp, $2);
 				$$ = tmp;
 			}
 					|/*vacio*/ {$$ = "";}
@@ -229,10 +227,9 @@ lista_argumentos: ',' variable lista_argumentos {
 					buff = st->type;
 					printf("regreso %s\n", buff);
 					char *temp;
-					int i=0;
-					while(*buff){
-						temp[i++]=*buff++;
-					}
+					strcat(temp,"X");
+					strcat(temp,st->type);
+					strcat(temp, $3);
 					$$ = temp;
 				}
 				| /*vacio*/ {$$ = "";}
