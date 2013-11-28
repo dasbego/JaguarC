@@ -58,4 +58,5 @@ for {return FOR;}
 
 [^ \t\n] {return yytext[0];}
 [ \t]
+[ \n] {yylineno++;}
 %%

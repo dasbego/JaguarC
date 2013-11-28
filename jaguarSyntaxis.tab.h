@@ -88,7 +88,7 @@
 
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 typedef union YYSTYPE
-#line 13 "jaguarSyntaxis.y"
+#line 12 "jaguarSyntaxis.y"
 {
 	int i;
 	float f;

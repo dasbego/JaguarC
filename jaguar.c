@@ -21,22 +21,24 @@ int yywrap(){
 
 
 void yyerror(char *s, ...){
+	fprintf(stderr, "%d: error", yylineno);
 	fprintf(stderr,"%s \n", s);
 } 
 
-void insertTable(char *name, char *type, char *scope){
+void insertTable(char *name, char *type){
   struct simbolo *sp = &tablaSimbolos[idToHash(name)%TableHash]; //obtener entrada
   int scount = TableHash;		/* cuantos lugares hemos "visto" */
 	
   while(--scount >= 0) {
-    if(sp->name && !strcmp(sp->name, name)) {
+    if(sp->name && strcmp(sp->name, name)) {
 			yyerror("Simbolo previamente declarado/n"); 
 		}
 		
     if(!sp->name) {		/* Crear Entrada */
       sp->name = strdup(name);
-		sp->type = strdup(type);
-      sp->scope = strdup(scope);
+	  sp->type = strdup(type);
+      tablaSimbolos[idToHash(name)%TableHash] = *sp;
+      //printSimbTable();
       
       return;
     }
@@ -63,22 +65,18 @@ char *compareType(char *a, char *b){
 	return "";
 }
 
-struct simbolo * search(char* id, char* scope){
+struct simbolo * search(char* id){
   struct simbolo *sp = &tablaSimbolos[idToHash(id)%TableHash]; //obtener entrada
   int scount = TableHash;
-	printf("Voy al While\n");
+
   while(--scount >= 0) {
-	printf("Voy al primer if\n");
     if(sp->name && !strcmp(sp->name, id)) { return sp; }
 		
-
-	printf("Pase al segundo if\n");
     if(!sp->name) {		/* Entrada Vacia */
-      		yyerror("Se utilizo variable antes de declarar\n");
+      		yyerror("Se utilizo variable antes de declarar");
 			abort();
     }
 		
-	printf("Voy a seguir intentando\n");
     if(++sp >= tablaSimbolos+TableHash) {sp = tablaSimbolos; /* Seguir intentando */}
 	}
 
@@ -175,7 +173,12 @@ char *resultOperations(char *a, char *b, char *op){
 }
 
 void printSimbTable(){
-	
+	int indx;
+	for (indx = 0;indx<TableHash; indx++) {
+		if (tablaSimbolos[indx].name) {
+			printf("ID: %s | Type: %s\n",tablaSimbolos[indx].name,tablaSimbolos[indx].type);
+		}
+	}	
 }
 
 int yyparse();
