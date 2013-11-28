@@ -205,31 +205,35 @@ lista_funciones: funcion lista_funciones {
 
 //Cuando se crea la funcion
 argumentos_declaracion: variable lista_argumentos{
-				char buff[350];
+				//char buff[350];
 			 	struct simbolo *st = $1;
+				char *buff="";
 			 	insertTable(st->name, st->type);
-			 	if(!strcmp($2,"")){
-					sprintf(buff,"%s",st->type);
-					$$ = buff;
-				}else{
-					sprintf(buff,"%sX%s", st->type,$2);
-					$$ = buff;
+				//sprintf(buff,"%s%s",st->type,$2);
+				buff = st->type;
+				printf("regreso %s\n", buff);
+				char *tmp;
+				int i=0;
+				while(*buff){
+					tmp[i++]=*buff++;
 				}
+				$$ = tmp;
 			}
 					|/*vacio*/ {$$ = "";}
 ;
 
 lista_argumentos: ',' variable lista_argumentos {
-					char buff[350];
 					struct simbolo *st = $2;
-			 		insertTable(st->name, st->type);					
-					if(!strcmp($3,"")){
-						sprintf(buff,"%s",st->type);
-						$$ = buff;
-					}else{
-						sprintf(buff,"%sX%s", st->type, $3);
-						$$ = buff;
+			 		insertTable(st->name, st->type);
+					char *buff="";
+					buff = st->type;
+					printf("regreso %s\n", buff);
+					char *temp;
+					int i=0;
+					while(*buff){
+						temp[i++]=*buff++;
 					}
+					$$ = temp;
 				}
 				| /*vacio*/ {$$ = "";}
 ;
