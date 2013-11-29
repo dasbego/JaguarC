@@ -487,13 +487,13 @@ static const yytype_int8 yyrhs[] =
 static const yytype_uint16 yyrline[] =
 {
        0,    46,    46,    49,    62,    68,    71,    76,    79,    83,
-      94,   102,   103,   106,   116,   130,   139,   146,   151,   163,
-     171,   174,   185,   188,   195,   203,   214,   219,   222,   232,
-     235,   247,   250,   254,   263,   266,   280,   283,   286,   287,
-     288,   291,   292,   293,   294,   295,   296,   299,   300,   302,
-     327,   330,   333,   338,   352,   353,   356,   365,   368,   369,
-     372,   376,   379,   382,   385,   388,   400,   403,   404,   405,
-     406,   410,   414,   419,   424,   425,   427,   432,   433,   434
+      94,   102,   103,   106,   116,   130,   137,   143,   148,   160,
+     168,   171,   182,   185,   192,   200,   211,   216,   219,   229,
+     232,   244,   247,   251,   260,   263,   277,   280,   283,   284,
+     285,   288,   289,   290,   291,   292,   293,   296,   297,   299,
+     324,   327,   330,   335,   349,   350,   353,   362,   365,   366,
+     369,   383,   391,   399,   407,   410,   422,   425,   426,   427,
+     428,   432,   436,   441,   446,   447,   449,   454,   455,   456
 };
 #endif
 
@@ -1643,8 +1643,6 @@ yyreduce:
   case 15:
 #line 130 "jaguarSyntaxis.y"
     {
-	struct simbolo *st = (yyvsp[(1) - (2)].sim);
-	printf("HAHA %s, %s\n", st->scope, st->type);
 	insertTable(st->name, st->type, st->scope);
 	actualizaScopes(st->scope);
 	(yyval.c)="";
@@ -1652,25 +1650,24 @@ yyreduce:
     break;
 
   case 16:
-#line 139 "jaguarSyntaxis.y"
+#line 137 "jaguarSyntaxis.y"
     {
 	struct simbolo *st = (yyvsp[(1) - (2)].sim);
 	insertTable(st->name, st->type, st->scope);
-	printf("HAHA %s, %s\n", st->scope, st->type);
 	actualizaScopes(st->scope);
 	(yyval.c)="";
 ;}
     break;
 
   case 17:
-#line 146 "jaguarSyntaxis.y"
+#line 143 "jaguarSyntaxis.y"
     {
 	(yyval.c)="";
 ;}
     break;
 
   case 18:
-#line 151 "jaguarSyntaxis.y"
+#line 148 "jaguarSyntaxis.y"
     {
 		struct simbolo *st = malloc(sizeof(struct simbolo));
 		char type[300];
@@ -1684,7 +1681,7 @@ yyreduce:
     break;
 
   case 19:
-#line 163 "jaguarSyntaxis.y"
+#line 160 "jaguarSyntaxis.y"
     {
 			 	struct simbolo *st = (yyvsp[(1) - (2)].sim);
 				char *tmp;
@@ -1696,12 +1693,12 @@ yyreduce:
     break;
 
   case 20:
-#line 171 "jaguarSyntaxis.y"
+#line 168 "jaguarSyntaxis.y"
     {(yyval.c) = "";;}
     break;
 
   case 21:
-#line 174 "jaguarSyntaxis.y"
+#line 171 "jaguarSyntaxis.y"
     {
 					char temp[50];
 					char b[100];
@@ -1716,12 +1713,12 @@ yyreduce:
     break;
 
   case 22:
-#line 185 "jaguarSyntaxis.y"
+#line 182 "jaguarSyntaxis.y"
     {(yyval.c) = "";;}
     break;
 
   case 23:
-#line 188 "jaguarSyntaxis.y"
+#line 185 "jaguarSyntaxis.y"
     {
 		struct simbolo *st = (yyvsp[(1) - (2)].sim);
 		//printf("%s", st->scope);
@@ -1730,7 +1727,7 @@ yyreduce:
     break;
 
   case 24:
-#line 195 "jaguarSyntaxis.y"
+#line 192 "jaguarSyntaxis.y"
     {
 			struct simbolo *st = malloc(sizeof(struct simbolo));
 			char *type = (yyvsp[(1) - (2)].c);
@@ -1742,7 +1739,7 @@ yyreduce:
     break;
 
   case 25:
-#line 203 "jaguarSyntaxis.y"
+#line 200 "jaguarSyntaxis.y"
     {
 			struct simbolo *st = malloc(sizeof(struct simbolo));
 			char type[30];
@@ -1755,7 +1752,7 @@ yyreduce:
     break;
 
   case 26:
-#line 214 "jaguarSyntaxis.y"
+#line 211 "jaguarSyntaxis.y"
     {	
 					struct simbolo *st = (yyvsp[(2) - (3)].sim);
 					insertTable(st->name, st->type, st->scope);
@@ -1764,12 +1761,12 @@ yyreduce:
     break;
 
   case 27:
-#line 219 "jaguarSyntaxis.y"
+#line 216 "jaguarSyntaxis.y"
     {(yyval.c)="";;}
     break;
 
   case 28:
-#line 222 "jaguarSyntaxis.y"
+#line 219 "jaguarSyntaxis.y"
     {
 				if(strcmp((yyvsp[(2) - (2)].c),""))
 				{
@@ -1783,12 +1780,12 @@ yyreduce:
     break;
 
   case 29:
-#line 232 "jaguarSyntaxis.y"
+#line 229 "jaguarSyntaxis.y"
     {(yyval.c) = "";;}
     break;
 
   case 30:
-#line 235 "jaguarSyntaxis.y"
+#line 232 "jaguarSyntaxis.y"
     {
 	struct simbolo *st = malloc(sizeof(struct simbolo));
 	char buff[300];
@@ -1802,19 +1799,19 @@ yyreduce:
     break;
 
   case 31:
-#line 247 "jaguarSyntaxis.y"
+#line 244 "jaguarSyntaxis.y"
     {
 					(yyval.c) = "";
 				;}
     break;
 
   case 32:
-#line 250 "jaguarSyntaxis.y"
+#line 247 "jaguarSyntaxis.y"
     {(yyval.c) = "";;}
     break;
 
   case 33:
-#line 254 "jaguarSyntaxis.y"
+#line 251 "jaguarSyntaxis.y"
     {
 				char *tmp;
 			 	struct simbolo *st = (yyvsp[(1) - (2)].sim);
@@ -1827,12 +1824,12 @@ yyreduce:
     break;
 
   case 34:
-#line 263 "jaguarSyntaxis.y"
+#line 260 "jaguarSyntaxis.y"
     {(yyval.c) = "";;}
     break;
 
   case 35:
-#line 266 "jaguarSyntaxis.y"
+#line 263 "jaguarSyntaxis.y"
     {
 					char *temp;
 					char a[50];
@@ -1850,22 +1847,22 @@ yyreduce:
     break;
 
   case 36:
-#line 280 "jaguarSyntaxis.y"
+#line 277 "jaguarSyntaxis.y"
     {(yyval.c) = "";;}
     break;
 
   case 47:
-#line 299 "jaguarSyntaxis.y"
+#line 296 "jaguarSyntaxis.y"
     {(yyval.c)=(yyvsp[(1) - (1)].c);;}
     break;
 
   case 48:
-#line 300 "jaguarSyntaxis.y"
+#line 297 "jaguarSyntaxis.y"
     {(yyval.c)=(yyvsp[(1) - (1)].c);;}
     break;
 
   case 49:
-#line 302 "jaguarSyntaxis.y"
+#line 299 "jaguarSyntaxis.y"
     {
 		/*buscar si existe id en este scope*/
 	struct simbolo *st = search((yyvsp[(1) - (3)].c));
@@ -1892,28 +1889,28 @@ yyreduce:
     break;
 
   case 50:
-#line 327 "jaguarSyntaxis.y"
+#line 324 "jaguarSyntaxis.y"
     {
 			(yyval.c) = (yyvsp[(1) - (2)].c);
 		;}
     break;
 
   case 51:
-#line 330 "jaguarSyntaxis.y"
+#line 327 "jaguarSyntaxis.y"
     {
 			(yyval.c) = (yyvsp[(1) - (2)].c);
 		;}
     break;
 
   case 52:
-#line 333 "jaguarSyntaxis.y"
+#line 330 "jaguarSyntaxis.y"
     {
 			(yyval.c) = (yyvsp[(2) - (4)].c);
 		;}
     break;
 
   case 53:
-#line 338 "jaguarSyntaxis.y"
+#line 335 "jaguarSyntaxis.y"
     {			
 				struct simbolo *checkStruct = search((yyvsp[(1) - (4)].c));
 				if((strcmp(checkStruct->name, "-1")))
@@ -1929,7 +1926,7 @@ yyreduce:
     break;
 
   case 56:
-#line 356 "jaguarSyntaxis.y"
+#line 353 "jaguarSyntaxis.y"
     {
 					if(strcmp((yyvsp[(2) - (2)].c),"")){
 						char buff[350];
@@ -1942,58 +1939,83 @@ yyreduce:
     break;
 
   case 57:
-#line 365 "jaguarSyntaxis.y"
+#line 362 "jaguarSyntaxis.y"
     {(yyval.c) = "";;}
     break;
 
   case 58:
-#line 368 "jaguarSyntaxis.y"
+#line 365 "jaguarSyntaxis.y"
     {(yyval.c)="";;}
     break;
 
   case 59:
-#line 369 "jaguarSyntaxis.y"
+#line 366 "jaguarSyntaxis.y"
     {(yyval.c)="";;}
     break;
 
   case 60:
-#line 372 "jaguarSyntaxis.y"
+#line 369 "jaguarSyntaxis.y"
     {
+<<<<<<< HEAD
 						printf("%s\n",resultOperations((yyvsp[(1) - (3)].c),(yyvsp[(3) - (3)].c),"+"));
+=======
+					
+						if(strcmp (resultOperations((yyvsp[(1) - (3)].c),(yyvsp[(3) - (3)].c),"+"), "error") == 0)
+						{
+							strcpy(Errors[counter], "Operacion no permitida entre los Tipos");
+							ErrorLineNumb[counter++] = yylineno;
+						}
+
+>>>>>>> 9596440f693824cdc7eec050486253d0f7c16cec
 						(yyval.c) = resultOperations((yyvsp[(1) - (3)].c),(yyvsp[(3) - (3)].c),"+");
 					;}
     break;
 
   case 61:
-#line 376 "jaguarSyntaxis.y"
+#line 383 "jaguarSyntaxis.y"
     {
+						if(strcmp (resultOperations((yyvsp[(1) - (3)].c),(yyvsp[(3) - (3)].c),"-"), "error") == 0)
+						{
+							strcpy(Errors[counter], "Operacion no permitida entre los Tipos");
+							ErrorLineNumb[counter++] = yylineno;
+						}
 						(yyval.c) = resultOperations((yyvsp[(1) - (3)].c),(yyvsp[(3) - (3)].c),"-");
 					;}
     break;
 
   case 62:
-#line 379 "jaguarSyntaxis.y"
+#line 391 "jaguarSyntaxis.y"
     {
+						if(strcmp (resultOperations((yyvsp[(1) - (3)].c),(yyvsp[(3) - (3)].c),"*"), "error") == 0)
+						{
+							strcpy(Errors[counter], "Operacion no permitida entre los Tipos");
+							ErrorLineNumb[counter++] = yylineno;
+						}
 						(yyval.c) = resultOperations((yyvsp[(1) - (3)].c),(yyvsp[(3) - (3)].c),"*");
 					;}
     break;
 
   case 63:
-#line 382 "jaguarSyntaxis.y"
+#line 399 "jaguarSyntaxis.y"
     {
+						if(strcmp (resultOperations((yyvsp[(1) - (3)].c),(yyvsp[(3) - (3)].c),"/"), "error") == 0)
+						{
+							strcpy(Errors[counter], "Operacion no permitida entre los Tipos");
+							ErrorLineNumb[counter++] = yylineno;
+						}
 						(yyval.c) = resultOperations((yyvsp[(1) - (3)].c),(yyvsp[(3) - (3)].c),"/");
 					;}
     break;
 
   case 64:
-#line 385 "jaguarSyntaxis.y"
+#line 407 "jaguarSyntaxis.y"
     {
 						(yyval.c) = (yyvsp[(1) - (1)].c);
 					;}
     break;
 
   case 65:
-#line 388 "jaguarSyntaxis.y"
+#line 410 "jaguarSyntaxis.y"
     {
 						//							NOTA * Type void!!! Se puede hacer operaciones?
 						struct simbolo *st;
@@ -2009,32 +2031,32 @@ yyreduce:
     break;
 
   case 66:
-#line 400 "jaguarSyntaxis.y"
+#line 422 "jaguarSyntaxis.y"
     {(yyval.c)=(yyvsp[(1) - (1)].c);;}
     break;
 
   case 67:
-#line 403 "jaguarSyntaxis.y"
+#line 425 "jaguarSyntaxis.y"
     {(yyval.c)="int";;}
     break;
 
   case 68:
-#line 404 "jaguarSyntaxis.y"
+#line 426 "jaguarSyntaxis.y"
     {(yyval.c)="float";;}
     break;
 
   case 69:
-#line 405 "jaguarSyntaxis.y"
+#line 427 "jaguarSyntaxis.y"
     {(yyval.c)="string";;}
     break;
 
   case 70:
-#line 406 "jaguarSyntaxis.y"
+#line 428 "jaguarSyntaxis.y"
     {(yyval.c)="bool";;}
     break;
 
   case 71:
-#line 410 "jaguarSyntaxis.y"
+#line 432 "jaguarSyntaxis.y"
     {
 			(yyval.c) = "";
 
@@ -2042,31 +2064,31 @@ yyreduce:
     break;
 
   case 72:
-#line 414 "jaguarSyntaxis.y"
+#line 436 "jaguarSyntaxis.y"
     {
 			(yyval.c) = "";
 ;}
     break;
 
   case 73:
-#line 419 "jaguarSyntaxis.y"
+#line 441 "jaguarSyntaxis.y"
     {
 		(yyval.c) = "";
 ;}
     break;
 
   case 74:
-#line 424 "jaguarSyntaxis.y"
+#line 446 "jaguarSyntaxis.y"
     {(yyval.c) = "";;}
     break;
 
   case 75:
-#line 425 "jaguarSyntaxis.y"
+#line 447 "jaguarSyntaxis.y"
     {(yyval.c) = "";;}
     break;
 
   case 76:
-#line 427 "jaguarSyntaxis.y"
+#line 449 "jaguarSyntaxis.y"
     {
 
 	;}
@@ -2074,7 +2096,7 @@ yyreduce:
 
 
 /* Line 1267 of yacc.c.  */
-#line 2078 "jaguarSyntaxis.tab.c"
+#line 2100 "jaguarSyntaxis.tab.c"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);
@@ -2288,5 +2310,5 @@ yyreturn:
 }
 
 
-#line 438 "jaguarSyntaxis.y"
+#line 460 "jaguarSyntaxis.y"
  
