@@ -46,7 +46,15 @@ s: PROGRAM ID ':' program
 ;
 
 program: declaracionEst firmasFunciones principal declaracionf PROGRAMEND {
+	int cc = 0;
 	printSimbTable();
+	printf("\n- - - - - - Errores encontrados: %d - - - - - -\n ", counter);
+	while(cc < counter)
+	{
+		printf( "\n*Linea[%d]  : %s", ErrorLineNumb[cc], Errors[cc]);
+		cc++;
+	}
+	printf("\n ");
 }
 ;
 
@@ -72,9 +80,9 @@ lista_estructuras: estructura lista_estructuras {
 
 estructura: STRUCT ID '{' varstruct '}' ';' {
 				/*cuando se declara un struct*/
-				char contStruct[300];
-				sprintf(contStruct, "Struct(%s)", $4);
 				char sc[30];
+				char contStruct[300];
+				sprintf(contStruct, "Struct(%s)", $4);				
 				sprintf(sc,"%s",$2);
 				insertTable($2,strdup(contStruct),sc);
 				actualizaScopes($2);
@@ -94,21 +102,25 @@ sigvarStruct: /*ya no hay variables*/ {$$="";}
 ;
 
 attrstruct: ID "." ID {
-			//buscar si $1 existe y despues si $3 existe entonces $$ = $3
-		if(search($1) && search($3))
+		struct simbolo *checkStruct = search($1);
+		struct simbolo *checkStruct2 = search($3);
+		if( (strcmp(checkStruct->name, "-1")) && (strcmp(checkStruct2->name, "-1")) )
 			$$ = $3;
-		else{
-			yyerror("variable o atributo desconocido.");
-			abort();
+		else{				
+			strcpy(Errors[counter], "variable o atributo desconocido.");
+			ErrorLineNumb[counter++] = yylineno;
 		}
 	}
 	| ID '.' ID '[' INTEGER ']'{
 			//buscar si $1 existe y despues si $3 existe entonces $$ = $3
-		if(search($1) && search($3))
+		struct simbolo *checkStruct = search($1);
+		struct simbolo *checkStruct2 = search($3);
+		if( (strcmp(checkStruct->name, "-1")) && (strcmp(checkStruct2->name, "-1")) )
 			$$ = $3;
 		else{
-			yyerror("variable o atributo desconocido.");
-			abort();
+			
+			strcpy(Errors[counter], "variable o atributo desconocido.");
+			ErrorLineNumb[counter++] = yylineno;
 		}
 	}
 ;
@@ -231,11 +243,10 @@ lista_funciones: funcion lista_funciones {
 
 //Cuando se crea la funcion
 argumentos_declaracion: variable lista_argumentos{
-				//char buff[350];
+				char *tmp;
 			 	struct simbolo *st = $1;
 			 	insertTable(st->name, st->type, st->scope);
-				//sprintf(buff,"%s%s",st->type,$2);
-				char *tmp;
+				//sprintf(buff,"%s%s",st->type,$2);				
 				tmp = st->type;
 				strcat(tmp, $2);
 				$$ = tmp;
@@ -244,15 +255,15 @@ argumentos_declaracion: variable lista_argumentos{
 ;
 
 lista_argumentos: ',' variable lista_argumentos {
-					struct simbolo *st = $2;
-			 		insertTable(st->name, st->type, st->scope);
 					char *temp;
-					strcpy(temp,"X");
-					strcat(temp,st->type);
 					char a[50];
-					sprintf(a,"%s", $3);
-					strcat(temp, $3);
 					char b[100];
+					struct simbolo *st = $2;
+			 		insertTable(st->name, st->type, st->scope);					
+					strcpy(temp,"X");
+					strcat(temp,st->type);					
+					sprintf(a,"%s", $3);
+					strcat(temp, $3);				
 					sprintf(b,"%s",temp);
 					$$ = b;
 				}
@@ -279,16 +290,27 @@ sentencia: asignacion ';'
 asignacion: ID '=' expresion {
 		/*buscar si existe id en este scope*/
 	struct simbolo *st = search($1);
+
 	if(st){
-		//printf("A comparar: %s,%s",st->type, $3);
-		if(strcmp(st->type,$3)){
-			yyerror("Tipos no compatibles para la asignacion");
-			abort();
+
+		if( (!strcmp(st->name, "-1")) ){
+			strcpy(Errors[counter], "Variable no declarada previamente");
+			ErrorLineNumb[counter++] = yylineno;
+		}else{
+
+			//printf("A comparar: %s,%s",st->type, $3);
+			if(strcmp(st->type,$3)){
+				//yyerror("Tipos no compatibles para la asignacion");
+				strcpy(Errors[counter], "Tipos no compatibles para la asignacion");
+				ErrorLineNumb[counter++] = yylineno;
+			}
 		}
+		
 
 	}else{
-		yyerror("variable desconocida: %s", $1);
-		abort();
+		//yyerror("variable desconocida: %s", $1);		
+		strcpy(Errors[counter], "variable desconocida");
+		ErrorLineNumb[counter++] = yylineno;
 	}
 }
 ;
@@ -304,25 +326,16 @@ expresion: llamada_a_funcion {
 		}
 ;
 
-llamada_a_funcion: ID '(' argumentos_llamada ')' {
-				//char buff[300];
-				//sprintf(buff,"(%s)",$3);
-
-				struct  simbolo *tmp = search($1);
-				if(tmp)
+llamada_a_funcion: ID '(' argumentos_llamada ')' {			
+				struct simbolo *checkStruct = search($1);
+				if((strcmp(checkStruct->name, "-1")))
 				{
-					$$ = tmp->type;
+					$$ = checkStruct->type;
 				}
 
-				// if(search($1,scope)){ //existe la id de funcion
-				// 	struct simbolo *st = search($1,scope);
-				// 	//if(strcmp(st->type, buff)){ //
-				// 	if(!strcmp(st->type, "")){ 
-				// 		$$ = st->type;
-				// 	}
-				else{
-					yyerror("funcion desconocida: ");
-					abort();
+				else{				
+					strcpy(Errors[counter], "Funcion desconocida/no declarada");
+					ErrorLineNumb[counter++] = yylineno;
 				}
 			}
 ;
@@ -363,9 +376,16 @@ expresion_aritmetica: expresion_aritmetica '+' expresion_aritmetica {
 						$$ = $1;
 					}
 					| ID {
+						//							NOTA * Type void!!! Se puede hacer operaciones?
 						struct simbolo *st;
 						st = search($1);
-						$$ = st->type;
+						if( (!strcmp(st->name, "-1")) ){
+							strcpy(Errors[counter], "No se ha encontrado el ID para la expresion aritmetica");
+							ErrorLineNumb[counter++] = yylineno;
+							$$ = "void";
+						}else{
+							$$ = st->type;
+						}
 					}
 ;
 

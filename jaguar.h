@@ -24,4 +24,9 @@ struct simbolo * search(char* sym);
 void 	actualizaScopes(char *scope);
 void	printSimbTable();
 
+//Variables para los errores
+char Errors[100][100];
+int counter;
+int ErrorLineNumb[999];
+
 extern int debug;

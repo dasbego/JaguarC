@@ -4,7 +4,7 @@
 #include <string.h>
 #include <math.h>
 #include "jaguar.h"
-#include "jaguarSyntaxis.tab.h"
+#include "y.tab.h"
 
 static unsigned idToHash(char *sym) {
   unsigned int hash = 0;
@@ -45,8 +45,8 @@ void insertTable(char *name, char *type, char *scope){
 		
     if(++sp >= tablaSimbolos+TableHash) sp = tablaSimbolos; /* Seguir intentando */
   }
-  yyerror("Se paso la capacidad de la tabla\n");
-  abort(); /* tried them all, table is full */	
+  strcpy(Errors[counter], "Se paso la capacidad de la tabla");	
+  ErrorLineNumb[counter++] = yylineno;
 }
 
 void actualizaScopes(char *scope){
@@ -83,12 +83,21 @@ struct simbolo * search(char* id){
   struct simbolo *sp = &tablaSimbolos[idToHash(id)%TableHash]; //obtener entrada
   int scount = TableHash;
 
+  // printf("a buscar: %s",id);
+  // printf("saque: %s",sp->name);
   while(--scount >= 0) {
-    if(sp->name && !strcmp(sp->name, id)) { return sp; }
+    if(sp->name && !strcmp(sp->name, id)) {
+     return sp; 
+ 	}
 		
     if(!sp->name) {		/* Entrada Vacia */
-      		yyerror("Se utilizo variable antes de declarar");
-			abort();
+ 			struct simbolo * tmp = malloc(sizeof (struct simbolo));
+ 			tmp->name = "-1";      		
+      //		strcpy(Errors[counter], "Se utilizo la varible antes de declarar");
+      //		ErrorLineNumb[counter++] = yylineno;
+      		
+      		return tmp;
+			//abort();
     }
 		
     if(++sp >= tablaSimbolos+TableHash) {sp = tablaSimbolos; /* Seguir intentando */}
