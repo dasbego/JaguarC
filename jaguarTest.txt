@@ -9,16 +9,23 @@ struct vaso{
 };
 
 void fcn();
+void fcn1();
+void fcn2();
 
 main(){
 	bool pluma;
-	string lapiz;
-	int borrador;
 }
 
 void fcn(){
-	bool chno;
+	bool viecko;
 }
 
+void fcn1(){
+	int mouse;
+}
+
+void fcn2(){
+	string sleep;
+}
 
 programEnd

@@ -37,6 +37,7 @@ void insertTable(char *name, char *type, char *scope){
     if(!sp->name) {		/* Crear Entrada */
       sp->name = strdup(name);
 	  sp->type = strdup(type);
+	  //sp->scope = strdup(scope);
       tablaSimbolos[idToHash(name)%TableHash] = *sp;
       
       return;

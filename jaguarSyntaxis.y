@@ -45,7 +45,7 @@ int yylex();
 s: PROGRAM ID ':' program
 ;
 
-program: declaracionEst firmasFunciones declaracionf PROGRAMEND {
+program: declaracionEst firmasFunciones principal declaracionf PROGRAMEND {
 	printSimbTable();
 }
 ;
@@ -113,21 +113,19 @@ attrstruct: ID "." ID {
 	}
 ;
 
-firmasFunciones: firma sigFirma principal {
+firmasFunciones: firma sigFirma {
 	struct simbolo *st = $1;
 	insertTable(st->name, st->type, st->scope);
-	actualizaScopes("main");
+	actualizaScopes(st->scope);
+	//actualizaScopes("main");
 	$$="";
-}
-| principal {
-	actualizaScopes("main");
-	$$="";	
 }
 ;
 
 sigFirma: firma sigFirma {
 	struct simbolo *st = $1;
 	insertTable(st->name, st->type, st->scope);
+	actualizaScopes(st->scope);
 	$$="";
 }
 | /*ya no hay firmas*/ {
@@ -141,7 +139,7 @@ firma: TYPE ID '(' argumentos_declaracion_firma ')' ';'{
 		char type[300];
 		st->name = $2;
 		st->scope = $2;
-		printf("%s", st->scope);
+		printf("%s\n", st->scope);
 		sprintf(type, "(%s)->%s",$4,$1);
 		st->type = type;
 		$$=st;
@@ -197,7 +195,7 @@ declaracionf: funcion lista_funciones {
 				{
 					struct simbolo *st = $1;
 					printf("%s", st->name);
-					insertTable(st->name, st->type, st->scope);
+					//insertTable(st->name, st->type, st->scope);
 					//actualizaScopes(st->name);
 				}
 				$$ = "";
@@ -212,7 +210,9 @@ funcion: TYPE ID '(' argumentos_declaracion ')' '{' cuerpo '}' {
 	st->name = $2;
 	st->type = buff;	
 	st->scope = $2;
-	//insertTable(st->name, st->type, st->scope);
+	//struct simbolo *sp = &tablaSimbolos[idToHash($2)%TableHash];
+    //tablaSimbolos[idToHash($2)%TableHash].scope = $2;
+
 	actualizaScopes($2);
 	$$ = st;
 }
