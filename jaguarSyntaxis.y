@@ -46,8 +46,7 @@ s: PROGRAM ID ':' program
 ;
 
 program: declaracionEst firmasFunciones declaracionf PROGRAMEND {
-	//printf("Scope: %s", MAIN);
-	//$$ = "";
+	printSimbTable();
 }
 ;
 
@@ -207,11 +206,8 @@ lista_funciones: funcion lista_funciones {
 argumentos_declaracion: variable lista_argumentos{
 				//char buff[350];
 			 	struct simbolo *st = $1;
-				char *buff="";
 			 	insertTable(st->name, st->type);
 				//sprintf(buff,"%s%s",st->type,$2);
-				buff = st->type;
-				printf("regreso %s\n", buff);
 				char *tmp;
 				tmp = st->type;
 				strcat(tmp, $2);
@@ -223,14 +219,15 @@ argumentos_declaracion: variable lista_argumentos{
 lista_argumentos: ',' variable lista_argumentos {
 					struct simbolo *st = $2;
 			 		insertTable(st->name, st->type);
-					char *buff="";
-					buff = st->type;
-					printf("regreso %s\n", buff);
 					char *temp;
-					strcat(temp,"X");
+					strcpy(temp,"X");
 					strcat(temp,st->type);
+					char a[50];
+					sprintf(a,"%s", $3);
 					strcat(temp, $3);
-					$$ = temp;
+					char b[100];
+					sprintf(b,"%s",temp);
+					$$ = b;
 				}
 				| /*vacio*/ {$$ = "";}
 ;

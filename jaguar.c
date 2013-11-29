@@ -38,8 +38,8 @@ void insertTable(char *name, char *type){
       sp->name = strdup(name);
 	  sp->type = strdup(type);
       tablaSimbolos[idToHash(name)%TableHash] = *sp;
-      printSimbTable();
-      printf("---\n");
+      //printSimbTable();
+      //printf("---\n");
       
       return;
     }
