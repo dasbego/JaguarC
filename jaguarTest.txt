@@ -12,6 +12,8 @@ void fcn();
 
 main(){
 	bool pluma;
+	string lapiz;
+	int borrador;
 }
 
 void fcn(){

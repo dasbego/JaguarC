@@ -116,6 +116,7 @@ attrstruct: ID "." ID {
 firmasFunciones: firma sigFirma principal {
 	struct simbolo *st = $1;
 	insertTable(st->name, st->type, st->scope);
+	actualizaScopes("main");
 	$$="";
 }
 | principal {
@@ -197,7 +198,7 @@ declaracionf: funcion lista_funciones {
 					struct simbolo *st = $1;
 					printf("%s", st->name);
 					insertTable(st->name, st->type, st->scope);
-					actualizaScopes(st->name);
+					//actualizaScopes(st->name);
 				}
 				$$ = "";
 			}
