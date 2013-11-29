@@ -38,6 +38,8 @@ void insertTable(char *name, char *type, char *scope){
       sp->name = strdup(name);
 	  sp->type = strdup(type);
 	  //sp->scope = strdup(scope);
+	  if(strlen(scope)>0)
+	  	sp->scope = strdup(scope);
       tablaSimbolos[idToHash(name)%TableHash] = *sp;
       
       return;
@@ -61,22 +63,6 @@ void actualizaScopes(char *scope){
   		}
   		scount--;
 	}
-}
-
-
-char *compareType(char *a, char *b){
-	if((!strcmp(a,"int") || !strcmp(a,"string") )&& (!strcmp(b,"int") || !strcmp(b,"string"))){
-			return "ent";
-	}
-	else 
-		if((!strcmp(a,"float") || !strcmp(b,"float")) && (strcmp(a,"string") && strcmp(b,"string"))){
-			return "float";
-	}
-	else
-		if(!strcmp(a,"bool") && !strcmp(b,"bool")){
-			return "bool";
-	}
-	return "";
 }
 
 struct simbolo * search(char* id){
@@ -115,6 +101,8 @@ char *resultOperations(char *a, char *b, char *op){
 	if(strcmp(op,"-")) operador =2;
 	if(strcmp(op,"*")) operador =3;
 	if(strcmp(op,"/")) operador =4;
+
+	printf("A comparar: %s %s %s ",a,op,b);
 
 	switch(operador){
 		case 1: 

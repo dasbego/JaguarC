@@ -38,7 +38,7 @@ for {return FOR;}
 "+"|"/"|"-"|"*"|"mod" {yylval.c=strdup(yytext);
 	return OPERADOR;}
 
-[0-9]+.[0-9]+ {yylval.f = atof(yytext);
+[0-9]+"."[0-9]+ {yylval.f = atof(yytext);
 				return REAL;}
 
 ("_")*[A-Za-z]([A-Za-z]|[0-9])* {yylval.c=strdup(yytext); 

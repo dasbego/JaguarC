@@ -5,21 +5,17 @@ struct a{
 };
 
 struct vaso{
-	string m;
+	string m[10];
 };
 
-void fcn();
-void fcn1();
+void fcn1(string g, int qwe, int wer, string bnm);
 void fcn2();
 
 main(){
-	bool pluma;
-	bool lapiz;
-	bool hoja;
-}
-
-void fcn(){
-	bool viecko;
+	int julio;
+	julio = 1;
+	string h;
+	h = "hola"; 
 }
 
 void fcn1(){

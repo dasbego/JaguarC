@@ -37,7 +37,8 @@ int yylex();
 %type <sim> variable funcion firma
 %type <c> varstruct lista_variables lista_argumentos argumentos_declaracion lista_funciones declaracionf expresion argumentos_llamada
 %type <c> sigvarStruct attrstruct expresion_aritmetica lista_ids valor iteracion estatuto_decision sino llamada_a_funcion
-%type <c> firmasFunciones lista_estructuras declaracionEst sigFirma principal argumentos_declaracion_firma
+%type <c> firmasFunciones lista_estructuras declaracionEst sigFirma principal argumentos_declaracion_firma varID
+%type <c> lista_argumentos_firma
 %start s 
 
 %%  /* Grammar rules and actions follow */
@@ -127,7 +128,6 @@ attrstruct: ID "." ID {
 ;
 
 firmasFunciones: firma sigFirma {
-	struct simbolo *st = $1;
 	insertTable(st->name, st->type, st->scope);
 	actualizaScopes(st->scope);
 	$$="";
@@ -146,31 +146,45 @@ sigFirma: firma sigFirma {
 ;
 
 firma: TYPE ID '(' argumentos_declaracion_firma ')' ';'{
-		//printf("voy a crear el malloc");
 		struct simbolo *st = malloc(sizeof(struct simbolo));
 		char type[300];
 		st->name = $2;
 		st->scope = $2;
-		printf("%s\n", st->scope);
 		sprintf(type, "(%s)->%s",$4,$1);
 		st->type = type;
+		printf("%s\n", st->type);
 		$$=st;
 }
 ;
 
-argumentos_declaracion_firma: variable lista_argumentos{
+argumentos_declaracion_firma: variable lista_argumentos_firma{
 			 	struct simbolo *st = $1;
 				char *tmp;
 				tmp = st->type;
 				strcat(tmp, $2);
+				printf("%s\n",tmp);
 				$$ = tmp;
 			}
 			|/*vacio*/ {$$ = "";}
 ;
 
+lista_argumentos_firma: ',' variable lista_argumentos_firma {
+					char temp[50];
+					char b[100];
+					struct simbolo *st = $2;			
+					strcpy(temp,"X");
+					strcat(temp,st->type);	
+					strcat(temp, $3);				
+					sprintf(b,"%s",temp);
+					//printf("Regreso %s\n",b);
+					$$ = b;
+				}
+				| /*vacio*/ {$$ = "";}
+;
+
 declaracionv: variable lista_variables {
 		struct simbolo *st = $1;
-		printf("%s", st->scope);
+		//printf("%s", st->scope);
 		insertTable(st->name, st->type, st->scope);
 }
 ;
@@ -185,7 +199,7 @@ variable: TYPE ID {
 		}
 		| TYPE ID '[' INTEGER ']'	{
 			struct simbolo *st = malloc(sizeof(struct simbolo));
-			char *type;
+			char type[30];
 			sprintf(type,"array(0..%d,%s)",$4, $1);
 			st->name = $2;
 			st->type = type;
@@ -206,7 +220,7 @@ declaracionf: funcion lista_funciones {
 				if(strcmp($2,""))
 				{
 					struct simbolo *st = $1;
-					printf("%s", st->name);
+					//printf("%s", st->name);
 					//insertTable(st->name, st->type, st->scope);
 					//actualizaScopes(st->name);
 				}
@@ -222,20 +236,12 @@ funcion: TYPE ID '(' argumentos_declaracion ')' '{' cuerpo '}' {
 	st->name = $2;
 	st->type = buff;	
 	st->scope = $2;
-	//struct simbolo *sp = &tablaSimbolos[idToHash($2)%TableHash];
-    //tablaSimbolos[idToHash($2)%TableHash].scope = $2;
-
 	actualizaScopes($2);
 	$$ = st;
 }
 ;
 
 lista_funciones: funcion lista_funciones {
-					if(strcmp($2,""))
-					{
-						struct simbolo *st = $1;
-						//insertTable(st->name, st->type, st->scope);
-					}
 					$$ = "";
 				}
 				| /*vacio*/ {$$ = "";}
@@ -245,10 +251,10 @@ lista_funciones: funcion lista_funciones {
 argumentos_declaracion: variable lista_argumentos{
 				char *tmp;
 			 	struct simbolo *st = $1;
-			 	insertTable(st->name, st->type, st->scope);
-				//sprintf(buff,"%s%s",st->type,$2);				
+			 	insertTable(st->name, st->type, st->scope);	
 				tmp = st->type;
 				strcat(tmp, $2);
+				printf("Regreso %s\n",tmp);
 				$$ = tmp;
 			}
 					|/*vacio*/ {$$ = "";}
@@ -265,6 +271,7 @@ lista_argumentos: ',' variable lista_argumentos {
 					sprintf(a,"%s", $3);
 					strcat(temp, $3);				
 					sprintf(b,"%s",temp);
+					printf("Regreso %s\n",b);
 					$$ = b;
 				}
 				| /*vacio*/ {$$ = "";}
@@ -278,27 +285,26 @@ lista_sentencias: /*vacio*/
 				| RETURN expresion ';'
 ;
 
-sentencia: asignacion ';' 
+sentencia: asignacion 
 			| declaracionv
 			| iteracion
 			| estatuto_decision
 			| llamada_a_funcion ';'
 			| llamada_funcion_definida ';'
-			| attrstruct ';'
 ;
 
-asignacion: ID '=' expresion {
+varID: ID {$$=$1;}
+| attrstruct {$$=$1;}
+
+asignacion: varID '=' expresion {
 		/*buscar si existe id en este scope*/
 	struct simbolo *st = search($1);
-
+	printf("%s\n",$3);
 	if(st){
-
 		if( (!strcmp(st->name, "-1")) ){
 			strcpy(Errors[counter], "Variable no declarada previamente");
 			ErrorLineNumb[counter++] = yylineno;
 		}else{
-
-			//printf("A comparar: %s,%s",st->type, $3);
 			if(strcmp(st->type,$3)){
 				//yyerror("Tipos no compatibles para la asignacion");
 				strcpy(Errors[counter], "Tipos no compatibles para la asignacion");
@@ -315,13 +321,13 @@ asignacion: ID '=' expresion {
 }
 ;
 
-expresion: llamada_a_funcion {
+expresion: llamada_a_funcion ';' {
 			$$ = $1;
 		}
-		| expresion_aritmetica{
+		| expresion_aritmetica ';'{
 			$$ = $1;
 		}
-		| '(' expresion ')' {
+		| '(' expresion ')' ';'{
 			$$ = $2;
 		}
 ;
@@ -361,6 +367,7 @@ lista_ids: ',' ID lista_ids {$$="";}
 ;
 
 expresion_aritmetica: expresion_aritmetica '+' expresion_aritmetica {
+						printf("%s\n",resultOperations($1,$3,"+"));
 						$$ = resultOperations($1,$3,"+");
 					}
 					| expresion_aritmetica '-' expresion_aritmetica {
@@ -387,13 +394,14 @@ expresion_aritmetica: expresion_aritmetica '+' expresion_aritmetica {
 							$$ = st->type;
 						}
 					}
+					| attrstruct {$$=$1;}
 ;
 
 valor: INTEGER {$$="int";}
 	| REAL {$$="float";}
 	| CADENA {$$="string";}
 	| BOOLEAN {$$="bool";}
-	| attrstruct {$$=$1;}
+	// | attrstruct {$$=$1;}
 ;
 
 iteracion: FOR '(' asignacion ';' lista_condiciones ';' asignacion ')' '{' cuerpo '}' {
