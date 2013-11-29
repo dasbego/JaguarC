@@ -361,15 +361,37 @@ lista_ids: ',' ID lista_ids {$$="";}
 ;
 
 expresion_aritmetica: expresion_aritmetica '+' expresion_aritmetica {
+					
+						if(strcmp (resultOperations($1,$3,"+"), "error") == 0)
+						{
+							strcpy(Errors[counter], "Operacion no permitida entre los Tipos");
+							ErrorLineNumb[counter++] = yylineno;
+						}
+
 						$$ = resultOperations($1,$3,"+");
 					}
 					| expresion_aritmetica '-' expresion_aritmetica {
+						if(strcmp (resultOperations($1,$3,"-"), "error") == 0)
+						{
+							strcpy(Errors[counter], "Operacion no permitida entre los Tipos");
+							ErrorLineNumb[counter++] = yylineno;
+						}
 						$$ = resultOperations($1,$3,"-");
 					}
 					| expresion_aritmetica '*' expresion_aritmetica {
+						if(strcmp (resultOperations($1,$3,"*"), "error") == 0)
+						{
+							strcpy(Errors[counter], "Operacion no permitida entre los Tipos");
+							ErrorLineNumb[counter++] = yylineno;
+						}
 						$$ = resultOperations($1,$3,"*");
 					}
 					| expresion_aritmetica '/' expresion_aritmetica {
+						if(strcmp (resultOperations($1,$3,"/"), "error") == 0)
+						{
+							strcpy(Errors[counter], "Operacion no permitida entre los Tipos");
+							ErrorLineNumb[counter++] = yylineno;
+						}
 						$$ = resultOperations($1,$3,"/");
 					}
 					| valor {
