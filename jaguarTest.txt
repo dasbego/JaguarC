@@ -14,6 +14,8 @@ void fcn2();
 
 main(){
 	bool pluma;
+	bool lapiz;
+	bool hoja;
 }
 
 void fcn(){

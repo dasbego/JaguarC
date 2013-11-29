@@ -59,6 +59,7 @@ program: declaracionEst firmasFunciones principal declaracionf PROGRAMEND {
 ;
 
 principal: MAIN '(' argumentos_declaracion ')' '{' cuerpo '}' {
+	actualizaScopes("main");
 	$$="";
 }
 ;
@@ -129,7 +130,6 @@ firmasFunciones: firma sigFirma {
 	struct simbolo *st = $1;
 	insertTable(st->name, st->type, st->scope);
 	actualizaScopes(st->scope);
-	//actualizaScopes("main");
 	$$="";
 }
 ;

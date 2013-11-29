@@ -4,7 +4,7 @@
 #include <string.h>
 #include <math.h>
 #include "jaguar.h"
-#include "y.tab.h"
+#include "jaguarSyntaxis.tab.h"
 
 static unsigned idToHash(char *sym) {
   unsigned int hash = 0;
