@@ -1,9 +1,22 @@
 program miprograma:
 
-void myfunc(bool a, int b, float e);
+struct a{
+	int y;
+};
+
+struct vaso{
+	string m;
+};
+
+void fcn();
 
 main(){
-	string bego;
-	bego="holi";
+	bool pluma;
 }
+
+void fcn(){
+	bool chno;
+}
+
+
 programEnd

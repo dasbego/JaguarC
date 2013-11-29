@@ -2,6 +2,7 @@
 struct simbolo {		/* Nombre de la variable */
   char		*name;
   char		*type;
+  char		*scope;
 };
 //char *compareType(char*a,char*b, char * );
 char *resultOperations(char *a, char *b, char *op);
@@ -18,8 +19,9 @@ extern int yylineno; /* numero de lineas definidas en el lex */
 void yyerror(char *s, ...);
 
 /* Funciones de Tabla de Simbolos */
-void	insertTable(char *name, char *type);
+void	insertTable(char *name, char *type, char *scope);
 struct simbolo * search(char* sym);
+void 	actualizaScopes(char *scope);
 void	printSimbTable();
 
 extern int debug;

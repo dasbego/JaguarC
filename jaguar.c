@@ -25,7 +25,7 @@ void yyerror(char *s, ...){
 	fprintf(stderr,"%s \n", s);
 } 
 
-void insertTable(char *name, char *type){
+void insertTable(char *name, char *type, char *scope){
   struct simbolo *sp = &tablaSimbolos[idToHash(name)%TableHash]; //obtener entrada
   int scount = TableHash;		/* cuantos lugares hemos "visto" */
 	
@@ -38,8 +38,6 @@ void insertTable(char *name, char *type){
       sp->name = strdup(name);
 	  sp->type = strdup(type);
       tablaSimbolos[idToHash(name)%TableHash] = *sp;
-      //printSimbTable();
-      //printf("---\n");
       
       return;
     }
@@ -48,6 +46,20 @@ void insertTable(char *name, char *type){
   }
   yyerror("Se paso la capacidad de la tabla\n");
   abort(); /* tried them all, table is full */	
+}
+
+void actualizaScopes(char *scope){
+  int scount = TableHash;
+
+  while(scount >= 0) {
+  			//printf("Entro %s\n", scope);
+    struct simbolo *sp = &tablaSimbolos[scount-1];
+  		if(sp->name){
+  			if(!sp->scope)
+  				tablaSimbolos[scount-1].scope = scope;
+  		}
+  		scount--;
+	}
 }
 
 
@@ -177,7 +189,7 @@ void printSimbTable(){
 	int indx;
 	for (indx = 0;indx<TableHash; indx++) {
 		if (tablaSimbolos[indx].name) {
-			printf("ID: %s | Type: %s\n",tablaSimbolos[indx].name,tablaSimbolos[indx].type);
+			printf("ID: %s | Type: %s | Scope: %s\n",tablaSimbolos[indx].name,tablaSimbolos[indx].type, tablaSimbolos[indx].scope);
 		}
 	}	
 }

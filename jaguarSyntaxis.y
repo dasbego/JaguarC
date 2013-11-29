@@ -37,7 +37,7 @@ int yylex();
 %type <sim> variable funcion firma
 %type <c> varstruct lista_variables lista_argumentos argumentos_declaracion lista_funciones declaracionf expresion argumentos_llamada
 %type <c> sigvarStruct attrstruct expresion_aritmetica lista_ids valor iteracion estatuto_decision sino llamada_a_funcion
-%type <c> firmasFunciones lista_estructuras declaracionEst sigFirma principal
+%type <c> firmasFunciones lista_estructuras declaracionEst sigFirma principal argumentos_declaracion_firma
 %start s 
 
 %%  /* Grammar rules and actions follow */
@@ -74,13 +74,17 @@ estructura: STRUCT ID '{' varstruct '}' ';' {
 				/*cuando se declara un struct*/
 				char contStruct[300];
 				sprintf(contStruct, "Struct(%s)", $4);
-				insertTable($2,strdup(contStruct));
+				char sc[30];
+				sprintf(sc,"%s",$2);
+				insertTable($2,strdup(contStruct),sc);
+				actualizaScopes($2);
 			}
 ;
 
 varstruct: variable ';' sigvarStruct {
 				struct simbolo *st = $1;
-				insertTable(st->name, st->type);
+				st->scope = "";
+				insertTable(st->name, st->type, st->scope);
 				$$=$3;
 		}
 ;
@@ -111,15 +115,18 @@ attrstruct: ID "." ID {
 
 firmasFunciones: firma sigFirma principal {
 	struct simbolo *st = $1;
-	insertTable(st->name, st->type);
+	insertTable(st->name, st->type, st->scope);
 	$$="";
 }
-| principal
+| principal {
+	actualizaScopes("main");
+	$$="";	
+}
 ;
 
 sigFirma: firma sigFirma {
 	struct simbolo *st = $1;
-	insertTable(st->name, st->type);
+	insertTable(st->name, st->type, st->scope);
 	$$="";
 }
 | /*ya no hay firmas*/ {
@@ -127,20 +134,33 @@ sigFirma: firma sigFirma {
 }
 ;
 
-firma: TYPE ID '(' argumentos_declaracion ')' ';'{
+firma: TYPE ID '(' argumentos_declaracion_firma ')' ';'{
 		//printf("voy a crear el malloc");
 		struct simbolo *st = malloc(sizeof(struct simbolo));
 		char type[300];
 		st->name = $2;
+		st->scope = $2;
+		printf("%s", st->scope);
 		sprintf(type, "(%s)->%s",$4,$1);
 		st->type = type;
 		$$=st;
 }
 ;
 
+argumentos_declaracion_firma: variable lista_argumentos{
+			 	struct simbolo *st = $1;
+				char *tmp;
+				tmp = st->type;
+				strcat(tmp, $2);
+				$$ = tmp;
+			}
+			|/*vacio*/ {$$ = "";}
+;
+
 declaracionv: variable lista_variables {
 		struct simbolo *st = $1;
-		insertTable(st->name, st->type);
+		printf("%s", st->scope);
+		insertTable(st->name, st->type, st->scope);
 }
 ;
 
@@ -149,6 +169,7 @@ variable: TYPE ID {
 			char *type = $1;
 			st->name = $2;
 			st->type = type;
+			st->scope = "";
 			$$ = st;
 		}
 		| TYPE ID '[' INTEGER ']'	{
@@ -157,13 +178,14 @@ variable: TYPE ID {
 			sprintf(type,"array(0..%d,%s)",$4, $1);
 			st->name = $2;
 			st->type = type;
+			st->scope = "";
 			$$ = st;
 		}
 ;
 
 lista_variables: ',' variable lista_variables {	
 					struct simbolo *st = $2;
-					insertTable(st->name, st->type);
+					insertTable(st->name, st->type, st->scope);
 					$$="";
 				}
 				| ';' {$$="";}
@@ -173,7 +195,9 @@ declaracionf: funcion lista_funciones {
 				if(strcmp($2,""))
 				{
 					struct simbolo *st = $1;
-					insertTable(st->name, st->type);
+					printf("%s", st->name);
+					insertTable(st->name, st->type, st->scope);
+					actualizaScopes(st->name);
 				}
 				$$ = "";
 			}
@@ -186,7 +210,9 @@ funcion: TYPE ID '(' argumentos_declaracion ')' '{' cuerpo '}' {
 	sprintf(buff, "(%s)->%s", $4, $1);
 	st->name = $2;
 	st->type = buff;	
-	insertTable(st->name, st->type);
+	st->scope = $2;
+	//insertTable(st->name, st->type, st->scope);
+	actualizaScopes($2);
 	$$ = st;
 }
 ;
@@ -195,7 +221,7 @@ lista_funciones: funcion lista_funciones {
 					if(strcmp($2,""))
 					{
 						struct simbolo *st = $1;
-						insertTable(st->name, st->type);
+						//insertTable(st->name, st->type, st->scope);
 					}
 					$$ = "";
 				}
@@ -206,7 +232,7 @@ lista_funciones: funcion lista_funciones {
 argumentos_declaracion: variable lista_argumentos{
 				//char buff[350];
 			 	struct simbolo *st = $1;
-			 	insertTable(st->name, st->type);
+			 	insertTable(st->name, st->type, st->scope);
 				//sprintf(buff,"%s%s",st->type,$2);
 				char *tmp;
 				tmp = st->type;
@@ -218,7 +244,7 @@ argumentos_declaracion: variable lista_argumentos{
 
 lista_argumentos: ',' variable lista_argumentos {
 					struct simbolo *st = $2;
-			 		insertTable(st->name, st->type);
+			 		insertTable(st->name, st->type, st->scope);
 					char *temp;
 					strcpy(temp,"X");
 					strcat(temp,st->type);
