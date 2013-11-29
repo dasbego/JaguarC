@@ -177,7 +177,9 @@ char *resultOperations(char *a, char *b, char *op){
 			}
 			break;
 		default:
-			printf("Operador no aceptado\n" );
+			//printf("Operador no aceptado\n" );
+			strcpy(Errors[counter], "Operador no reconocido");
+			ErrorLineNumb[counter++] = yylineno;
 			break;
 	}
 	return "";
