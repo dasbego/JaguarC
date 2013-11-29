@@ -30,8 +30,9 @@ void insertTable(char *name, char *type, char *scope){
   int scount = TableHash;		/* cuantos lugares hemos "visto" */
 	
   while(--scount >= 0) {
-    if(sp->name && (strcmp(sp->name, name)==0)) {
-			yyerror("Simbolo previamente declarado/n"); 
+    if(sp->name && !strcmp(sp->name, name)) {
+		  strcpy(Errors[counter], "Simbolo previamente declarado");	
+		  ErrorLineNumb[counter++] = yylineno;
 		}
 		
     if(!sp->name) {		/* Crear Entrada */

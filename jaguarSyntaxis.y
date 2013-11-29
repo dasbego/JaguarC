@@ -136,7 +136,7 @@ firmasFunciones: firma sigFirma {
 
 sigFirma: firma sigFirma {
 	struct simbolo *st = $1;
-	insertTable(st->name, st->type, st->scope);
+	//insertTable(st->name, st->type, st->scope);
 	actualizaScopes(st->scope);
 	$$="";
 }
@@ -163,7 +163,7 @@ argumentos_declaracion_firma: variable lista_argumentos_firma{
 				char *tmp;
 				tmp = st->type;
 				strcat(tmp, $2);
-				printf("%s\n",tmp);
+				//printf("%s\n",tmp);
 				$$ = tmp;
 			}
 			|/*vacio*/ {$$ = "";}
@@ -185,7 +185,6 @@ lista_argumentos_firma: ',' variable lista_argumentos_firma {
 
 declaracionv: variable lista_variables {
 		struct simbolo *st = $1;
-		//printf("%s", st->scope);
 		insertTable(st->name, st->type, st->scope);
 }
 ;
@@ -255,7 +254,7 @@ argumentos_declaracion: variable lista_argumentos{
 			 	insertTable(st->name, st->type, st->scope);	
 				tmp = st->type;
 				strcat(tmp, $2);
-				printf("Regreso %s\n",tmp);
+				//printf("Regreso %s\n",tmp);
 				$$ = tmp;
 			}
 					|/*vacio*/ {$$ = "";}
@@ -272,7 +271,7 @@ lista_argumentos: ',' variable lista_argumentos {
 					sprintf(a,"%s", $3);
 					strcat(temp, $3);				
 					sprintf(b,"%s",temp);
-					printf("Regreso %s\n",b);
+					//printf("Regreso %s\n",b);
 					$$ = b;
 				}
 				| /*vacio*/ {$$ = "";}
@@ -300,7 +299,7 @@ varID: ID {$$=$1;}
 asignacion: varID '=' expresion {
 		/*buscar si existe id en este scope*/
 	struct simbolo *st = search($1);
-	printf("%s\n",$3);
+	//printf("%s\n",$3);
 	if(st){
 		if( (!strcmp(st->name, "-1")) ){
 			strcpy(Errors[counter], "Variable no declarada previamente");
