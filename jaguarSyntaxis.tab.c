@@ -487,7 +487,7 @@ static const yytype_int8 yyrhs[] =
 static const yytype_uint16 yyrline[] =
 {
        0,    46,    46,    49,    62,    68,    71,    76,    79,    83,
-      94,   102,   103,   106,   116,   130,   138,   144,   149,   161,
+      94,   102,   103,   106,   116,   130,   137,   143,   148,   161,
      169,   172,   183,   186,   193,   201,   212,   217,   220,   230,
      233,   245,   248,   252,   261,   264,   278,   281,   284,   285,
      286,   289,   290,   291,   292,   293,   294,   297,   298,   300,
@@ -1644,14 +1644,13 @@ yyreduce:
 #line 130 "jaguarSyntaxis.y"
     {
 	struct simbolo *st = (yyvsp[(1) - (2)].sim);
-	insertTable(st->name, st->type, st->scope);
 	actualizaScopes(st->scope);
 	(yyval.c)="";
 ;}
     break;
 
   case 16:
-#line 138 "jaguarSyntaxis.y"
+#line 137 "jaguarSyntaxis.y"
     {
 	struct simbolo *st = (yyvsp[(1) - (2)].sim);
 	insertTable(st->name, st->type, st->scope);
@@ -1661,14 +1660,14 @@ yyreduce:
     break;
 
   case 17:
-#line 144 "jaguarSyntaxis.y"
+#line 143 "jaguarSyntaxis.y"
     {
 	(yyval.c)="";
 ;}
     break;
 
   case 18:
-#line 149 "jaguarSyntaxis.y"
+#line 148 "jaguarSyntaxis.y"
     {
 		struct simbolo *st = malloc(sizeof(struct simbolo));
 		char type[300];
@@ -1676,7 +1675,8 @@ yyreduce:
 		st->scope = (yyvsp[(2) - (6)].c);
 		sprintf(type, "(%s)->%s",(yyvsp[(4) - (6)].c),(yyvsp[(1) - (6)].c));
 		st->type = type;
-		printf("%s\n", st->type);
+		insertTable(st->name, st->type, st->scope);
+		//printf("PITOCHU %s\n", st->type);
 		(yyval.sim)=st;
 ;}
     break;

@@ -129,7 +129,6 @@ attrstruct: ID "." ID {
 
 firmasFunciones: firma sigFirma {
 	struct simbolo *st = $1;
-	insertTable(st->name, st->type, st->scope);
 	actualizaScopes(st->scope);
 	$$="";
 }
@@ -153,7 +152,8 @@ firma: TYPE ID '(' argumentos_declaracion_firma ')' ';'{
 		st->scope = $2;
 		sprintf(type, "(%s)->%s",$4,$1);
 		st->type = type;
-		printf("%s\n", st->type);
+		insertTable(st->name, st->type, st->scope);
+		//printf("PITOCHU %s\n", st->type);
 		$$=st;
 }
 ;

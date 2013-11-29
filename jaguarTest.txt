@@ -9,7 +9,7 @@ struct vaso{
 };
 
 void fcn1(string g, int qwe, int wer, string bnm);
-void fcn2();
+void fcn2(int x);
 
 main(){
 	int julio;
