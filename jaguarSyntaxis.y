@@ -128,6 +128,7 @@ attrstruct: ID "." ID {
 ;
 
 firmasFunciones: firma sigFirma {
+	struct simbolo *st = $1;
 	insertTable(st->name, st->type, st->scope);
 	actualizaScopes(st->scope);
 	$$="";
@@ -367,17 +368,13 @@ lista_ids: ',' ID lista_ids {$$="";}
 ;
 
 expresion_aritmetica: expresion_aritmetica '+' expresion_aritmetica {
-<<<<<<< HEAD
 						printf("%s\n",resultOperations($1,$3,"+"));
-=======
-					
 						if(strcmp (resultOperations($1,$3,"+"), "error") == 0)
 						{
 							strcpy(Errors[counter], "Operacion no permitida entre los Tipos");
 							ErrorLineNumb[counter++] = yylineno;
 						}
 
->>>>>>> 9596440f693824cdc7eec050486253d0f7c16cec
 						$$ = resultOperations($1,$3,"+");
 					}
 					| expresion_aritmetica '-' expresion_aritmetica {
