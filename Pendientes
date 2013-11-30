@@ -1,3 +1,8 @@
-* Al hacer funcion -> int fcn(int a){} por ejemplo, verificar que dicha funcion ya existe y que el Número y tipo de parámetros que le estás pasando sea correcto.
+* DE FUNCIONES:
+	- Checar que tengan el mismo tipo de como fueron declaradas en las firmas.
+	- que tengan el mismo número de parámetros que en las firmas.
+	- que tengan el mismo tipo que en las firmas.
+	- si tiene tipo de retorno que tenga un RETURN dentro de la funcion.
+		- que el tipo de la expresion que regresa sea del tipo que regresa la funcion.
 
 * Que pueda sacar tipos a atributos de structs; ejemplo: saber que mystruct.a es tipo int.
