@@ -103,7 +103,7 @@ char *resultOperations(char *a, char *b, char *op){
 	if(strcmp(op,"*")) operador =3;
 	if(strcmp(op,"/")) operador =4;
 
-	printf("A comparar: %s %s %s ",a,op,b);
+	printf("A comparar: %s %s %s \n",a,op,b);
 
 	switch(operador){
 		case 1: 

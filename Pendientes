@@ -1,5 +1,3 @@
 * Al hacer funcion -> int fcn(int a){} por ejemplo, verificar que dicha funcion ya existe y que el Número y tipo de parámetros que le estás pasando sea correcto.
 
-* Que haga bien las expresiones artiméticas; que admita operaciones tipo 1+2.
-
 * Que pueda sacar tipos a atributos de structs; ejemplo: saber que mystruct.a es tipo int.

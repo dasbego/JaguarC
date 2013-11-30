@@ -35,9 +35,6 @@ write			{return WRITE;}
 
 for {return FOR;}
 
-"+"|"/"|"-"|"*"|"mod" {yylval.c=strdup(yytext);
-	return OPERADOR;}
-
 [0-9]+"."[0-9]+ {yylval.f = atof(yytext);
 				return REAL;}
 

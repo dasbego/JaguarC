@@ -53,12 +53,11 @@
      ID = 269,
      OPERADORRELACIONAL = 270,
      CADENA = 271,
-     OPERADOR = 272,
-     TYPE = 273,
-     MAIN = 274,
-     INTEGER = 275,
-     REAL = 276,
-     BOOLEAN = 277
+     TYPE = 272,
+     MAIN = 273,
+     INTEGER = 274,
+     REAL = 275,
+     BOOLEAN = 276
    };
 #endif
 /* Tokens.  */
@@ -76,12 +75,11 @@
 #define ID 269
 #define OPERADORRELACIONAL 270
 #define CADENA 271
-#define OPERADOR 272
-#define TYPE 273
-#define MAIN 274
-#define INTEGER 275
-#define REAL 276
-#define BOOLEAN 277
+#define TYPE 272
+#define MAIN 273
+#define INTEGER 274
+#define REAL 275
+#define BOOLEAN 276
 
 
 
@@ -98,7 +96,7 @@ typedef union YYSTYPE
 	struct simbolo *sim;
 }
 /* Line 1529 of yacc.c.  */
-#line 102 "jaguarSyntaxis.tab.h"
+#line 100 "jaguarSyntaxis.tab.h"
 	YYSTYPE;
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
 # define YYSTYPE_IS_DECLARED 1

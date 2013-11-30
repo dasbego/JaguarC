@@ -21,7 +21,7 @@ int yylex();
 
 %token PROGRAM PROGRAMEND STRUCT IF ELSE RETURN FOR AND OR 
 %token READ WRITE
-%token <c> ID OPERADORRELACIONAL CADENA OPERADOR TYPE MAIN
+%token <c> ID OPERADORRELACIONAL CADENA TYPE MAIN
 %token <i> INTEGER
 %token <f> REAL
 %token <b> BOOLEAN
@@ -293,29 +293,43 @@ sentencia: asignacion ';'
 			| llamada_funcion_definida ';'
 ;
 
-varID: ID {$$=$1;}
-| attrstruct {$$=$1;}
-
-asignacion: varID '=' expresion {
-		/*buscar si existe id en este scope*/
+varID: ID {
 	struct simbolo *st = search($1);
-	//printf("%s\n",$3);
 	if(st){
 		if( (!strcmp(st->name, "-1")) ){
 			strcpy(Errors[counter], "Variable no declarada previamente");
 			ErrorLineNumb[counter++] = yylineno;
-		}else{
-			if(strcmp(st->type,$3)){
-				//yyerror("Tipos no compatibles para la asignacion");
-				strcpy(Errors[counter], "Tipos no compatibles para la asignacion");
-				ErrorLineNumb[counter++] = yylineno;
-			}
 		}
-		
+		$$=st->type;
+	}
+	else
+		$$="";
+}
+| attrstruct {$$=$1;}
+| ID '[' INTEGER ']' {
+	//checar si este ID sí es array
+	struct simbolo *st = search($1);
+	char idtype[10];
+	sprintf(idtype,"%s",getTypeOfArray(st->type));
+	if(st){
+		char tmp[3];
+		for(int i=0;i<3;i++){
+			tmp[i] = st->type[i];
+		}
+		//printf("%c\n",tmp[0]);
+		if(tmp[0]!='a'){
+			strcpy(Errors[counter], "Variable no es de tipo arreglo");
+			ErrorLineNumb[counter++] = yylineno;
+		}
+	}
+	$$=idtype;
+}
+;
 
-	}else{
-		//yyerror("variable desconocida: %s", $1);		
-		strcpy(Errors[counter], "variable desconocida");
+asignacion: varID '=' expresion {
+	if(strcmp($1,$3)){
+		printf("%s,%s",$1, $3);
+		strcpy(Errors[counter], "Tipos no compatibles para la asignacion");
 		ErrorLineNumb[counter++] = yylineno;
 	}
 }
@@ -405,19 +419,19 @@ expresion_aritmetica: expresion_aritmetica '+' expresion_aritmetica {
 					| valor {
 						$$ = $1;
 					}
-					| ID {
-						//							NOTA * Type void!!! Se puede hacer operaciones?
-						struct simbolo *st;
-						st = search($1);
-						if( (!strcmp(st->name, "-1")) ){
-							strcpy(Errors[counter], "No se ha encontrado el ID para la expresion aritmetica");
-							ErrorLineNumb[counter++] = yylineno;
-							$$ = "void";
-						}else{
-							$$ = st->type;
-						}
+					| varID {
+						$$=$1;
+						// //							NOTA * Type void!!! Se puede hacer operaciones?
+						// struct simbolo *st;
+						// st = search($1);
+						// if( (!strcmp(st->name, "-1")) ){
+						// 	strcpy(Errors[counter], "No se ha encontrado el ID para la expresion aritmetica");
+						// 	ErrorLineNumb[counter++] = yylineno;
+						// 	$$ = "void";
+						// }else{
+						// 	$$ = st->type;
+						// }
 					}
-					| attrstruct {$$=$1;}
 ;
 
 valor: INTEGER {$$="int";}
