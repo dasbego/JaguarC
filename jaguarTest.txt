@@ -14,7 +14,7 @@ int fcn1(int qwe, int uuyi, bool wer);
 main(){
 	int ___Jkl;
 	int iop[5];
-	___Jkl = iop[5];
+	___Jkl = iop[3];
 	vaso.m[0] = ___Jkl;
 	bool malz;
 	malz = false;
@@ -31,7 +31,7 @@ main(){
 			}else{
 			}
 		}
-		___Jkl = fcn1(___Jkl,malz, malz,malz);	
+		___Jkl = fcn1(___Jkl,___Jkl,malz);	
 	}
 }
 

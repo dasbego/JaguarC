@@ -143,8 +143,7 @@ attrstruct: ID '.' ID {
 				}
 				char idtype[10];
 				sprintf(idtype,"%s",getTypeOfArray(checkStruct2->type));
-				int yuyu;
-				yuyu = getRangeOfArray(checkStruct2->type);
+				int yuyu = getRangeOfArray(checkStruct2->type);
 				if($5>=yuyu || $5<0){
 					char error[100];
 					sprintf(error,"Indice fuera del arreglo. Tamaño de '%s' es de %d",checkStruct2->name, $5);
@@ -154,7 +153,6 @@ attrstruct: ID '.' ID {
 				$$ = idtype;	
 			}
 		}
-		$$="";
 	}
 ;
 
@@ -339,8 +337,8 @@ varID: ID {
 				ErrorLineNumb[counter++] = yylineno;
 			}
 		}
-		$$=idtype;
 	}
+	$$=idtype;
 }
 ;
 
@@ -387,7 +385,7 @@ llamada_a_funcion: ID '(' argumentos_llamada ')' {
 					{
 						char *regtype = malloc(sizeof(char));
 						sprintf(regtype,"%s",getTypeOfFunc(typee));
-						printf("\nSe regresa el tipo de funcion: %s \n", regtype);
+						//printf("\nSe regresa el tipo de funcion: %s \n", regtype);
 						$$ = regtype;
 					}
 					else{				
@@ -395,7 +393,6 @@ llamada_a_funcion: ID '(' argumentos_llamada ')' {
 						ErrorLineNumb[counter++] = yylineno;
 					}
 				}
-				$$="";
 			}
 ;
 
@@ -418,8 +415,9 @@ argumentos_llamada: ID lista_ids {
 						//printf("\n Regreso::: %s \n", temp);
 						$$ = temp;
 
+					}else{
+						$$="";
 					}
-					$$="";
 				}
 				| /*no tiene argumentos*/ {$$ = "";} 
 ;
