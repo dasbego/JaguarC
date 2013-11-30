@@ -1,5 +1,3 @@
 * DE FUNCIONES:
 	- si tiene tipo de retorno que tenga un RETURN dentro de la funcion.
 		- que el tipo de la expresion que regresa sea del tipo que regresa la funcion.
-
-* Que pueda sacar tipos a atributos de structs; ejemplo: saber que mystruct.a es tipo int.

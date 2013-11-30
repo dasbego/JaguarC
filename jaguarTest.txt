@@ -30,12 +30,14 @@ main(){
 				string baca;
 			}else{
 			}
-		}	
+		}
+		___Jkl = fcn1(___Jkl,malz);	
 	}
 }
 
-int fcn1(string g, int qwe, int wer, string bnm){
+int fcn1(int qwe, bool wer){
 	int mouse;
+	return mouse;
 }
 
 programEnd
