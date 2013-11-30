@@ -84,7 +84,7 @@ estructura: STRUCT ID '{' varstruct '}' ';' {
 				/*cuando se declara un struct*/
 				char sc[30];
 				char contStruct[300];
-				sprintf(contStruct, "Struct(%s)", $4);				
+				sprintf(contStruct, "Struct{%s}", $4);				
 				sprintf(sc,"%s",$2);
 				insertTable($2,strdup(contStruct),sc);
 				actualizaScopes($2);

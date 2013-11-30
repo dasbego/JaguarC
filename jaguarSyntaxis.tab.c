@@ -1583,7 +1583,7 @@ yyreduce:
 				/*cuando se declara un struct*/
 				char sc[30];
 				char contStruct[300];
-				sprintf(contStruct, "Struct(%s)", (yyvsp[(4) - (6)].c));				
+				sprintf(contStruct, "Struct{%s}", (yyvsp[(4) - (6)].c));				
 				sprintf(sc,"%s",(yyvsp[(2) - (6)].c));
 				insertTable((yyvsp[(2) - (6)].c),strdup(contStruct),sc);
 				actualizaScopes((yyvsp[(2) - (6)].c));
