@@ -4,7 +4,7 @@ struct simbolo {		/* Nombre de la variable */
   char		*type;
   char		*scope;
 };
-//char *compareType(char*a,char*b, char * );
+char *compareTypes(char*a,char*b);
 char *resultOperations(char *a, char *b, char *op);
 
 //tamano y tabla de simbolos

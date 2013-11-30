@@ -285,7 +285,7 @@ lista_sentencias: /*vacio*/
 				| RETURN expresion ';'
 ;
 
-sentencia: asignacion 
+sentencia: asignacion ';'
 			| declaracionv
 			| iteracion
 			| estatuto_decision
@@ -321,13 +321,13 @@ asignacion: varID '=' expresion {
 }
 ;
 
-expresion: llamada_a_funcion ';' {
+expresion: llamada_a_funcion {
 			$$ = $1;
 		}
-		| expresion_aritmetica ';'{
+		| expresion_aritmetica{
 			$$ = $1;
 		}
-		| '(' expresion ')' ';'{
+		| '(' expresion ')'{
 			$$ = $2;
 		}
 ;
@@ -445,6 +445,7 @@ sino: /*no tiene else*/ {$$ = "";}
 condicion: expresion OPERADORRELACIONAL expresion {
 
 	}
+	| BOOLEAN 
 ;
 
 lista_condiciones: '(' condicion ')'
