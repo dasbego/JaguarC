@@ -7,21 +7,29 @@ struct a{
 struct vaso{
 	string m[10];
 };
+
 //single line comment
 int fcn1(string g, int qwe, int wer, string bnm);
 int fcn2(int x);
 
 main(){
 	int jkl;
-	jkl = fcn1();
 	bool malz;
 	malz = false;
 	if((malz)){
-		int i;
-		i=0;
-		for(;(i<10);i=1){
-			write("Hola mundo");
+		if((malz!=false)&&(true)||(1<=100)){
+			int i;
+			i=0;
+			for(;(i<10);i=1){
+				write("Hola mundo");
+			}
+		}else{
+			if((malz!=false)&&(true)||(1<=100)){
+				string baca;
+			}else{
+			}
 		}
+		jkl = fcn1();
 	}
 }
 

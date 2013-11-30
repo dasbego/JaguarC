@@ -338,7 +338,6 @@ llamada_a_funcion: ID '(' argumentos_llamada ')' {
 				{
 					char regtype[10];
 					sprintf(regtype,"%s",getTypeOfFunc(checkStruct->type));
-					//printf("Todo el type: %s\n",regtype);
 					$$ = regtype;
 				}
 
