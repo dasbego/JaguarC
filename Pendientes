@@ -4,4 +4,5 @@
 
 * Que pueda sacar tipos a atributos de structs; ejemplo: saber que mystruct.a es tipo int.
 
+* Arrglar ifs, marca que no esperaba operador relacional
 
