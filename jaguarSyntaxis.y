@@ -336,7 +336,10 @@ llamada_a_funcion: ID '(' argumentos_llamada ')' {
 				struct simbolo *checkStruct = search($1);
 				if((strcmp(checkStruct->name, "-1")))
 				{
-					$$ = checkStruct->type;
+					char regtype[10];
+					sprintf(regtype,"%s",getTypeOfFunc(checkStruct->type));
+					//printf("Todo el type: %s\n",regtype);
+					$$ = regtype;
 				}
 
 				else{				

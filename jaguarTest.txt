@@ -7,14 +7,13 @@ struct a{
 struct vaso{
 	string m[10];
 };
-
-void fcn1(string g, int qwe, int wer, string bnm);
-void fcn2(int x);
+//single line comment
+int fcn1(string g, int qwe, int wer, string bnm);
+int fcn2(int x);
 
 main(){
 	int jkl;
-	bool vien; 
-	vien = true;
+	jkl = fcn1();
 	bool malz;
 	malz = false;
 	if((malz)){
@@ -30,7 +29,8 @@ void fcn1(){
 	int mouse;
 }
 
-void fcn2(){
+//single line comment
+int fcn2(){
 	string sleep;
 }
 

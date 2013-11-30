@@ -3,5 +3,3 @@
 * Que haga bien las expresiones artiméticas; que admita operaciones tipo 1+2.
 
 * Que pueda sacar tipos a atributos de structs; ejemplo: saber que mystruct.a es tipo int.
-
-* 

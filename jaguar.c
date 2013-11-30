@@ -189,7 +189,9 @@ char *resultOperations(char *a, char *b, char *op){
 char *getTypeOfFunc(char text[])
 {
     char *typeFunc;
-    typeFunc = strtok(text, ">");
+	char tmp[50];
+	sprintf(tmp, "%s", text);
+    typeFunc = strtok(tmp, ">");
     typeFunc = strtok(NULL, ">");
 	return typeFunc;
 }
@@ -197,7 +199,9 @@ char *getTypeOfFunc(char text[])
 char *getTypeOfArray(char text[])
 {
 	char *typeArray;
-	typeArray = strtok(text, ",");
+	char tmp[50];
+	sprintf(tmp, "%s", text);
+	typeArray = strtok(tmp, ",");
 	typeArray = strtok(NULL, ",");
 	typeArray = strtok(typeArray, ")");
 	
