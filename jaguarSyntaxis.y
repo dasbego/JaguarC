@@ -362,17 +362,35 @@ expresion: llamada_a_funcion {
 		}
 ;
 
-llamada_a_funcion: ID '(' argumentos_llamada ')' {			
-				struct simbolo *checkStruct = search($1);
-				if((strcmp(checkStruct->name, "-1")))
+llamada_a_funcion: ID '(' argumentos_llamada ')' {		
+				
+				
+				struct simbolo *checkStruct = search($1);				
+				char *typeFunc;
+				char typee[100];
+				sprintf(typee, "%s", checkStruct->type);
+
+    			typeFunc = strtok(checkStruct->type, "-" );
+				
+				printf("Se compara: %s y %s", $3, typeFunc);
+				if( (strcmp($3, typeFunc)!=0 ) )
 				{
-					char regtype[10];
-					sprintf(regtype,"%s",getTypeOfFunc(checkStruct->type));
-					$$ = regtype;
-				}
-				else{				
-					strcpy(Errors[counter], "Funcion desconocida/no declarada");
+					strcpy(Errors[counter], "PArametros incorrectos");
 					ErrorLineNumb[counter++] = yylineno;
+					printf("Fueron incorrectos\n");
+				}
+				else{	
+					if((strcmp(checkStruct->name, "-1") !=0))
+					{
+						char *regtype = malloc(sizeof(char));
+						sprintf(regtype,"%s",getTypeOfFunc(typee));
+						printf("\nSe regresa el tipo de funcion: %s \n", regtype);
+						$$ = regtype;
+					}
+					else{				
+						strcpy(Errors[counter], "Funcion desconocida/no declarada");
+						ErrorLineNumb[counter++] = yylineno;
+					}
 				}
 			}
 ;
@@ -382,10 +400,20 @@ llamada_funcion_definida: READ '(' ')'
 ;
 
 argumentos_llamada: ID lista_ids {
-					if(strcmp($2,"")){
-						char buff[350];
-						sprintf(buff,"%s", $1);
-						$$ = buff;
+					struct simbolo *st = search($1);
+					char temp[70];
+					char b[100];					
+					strcpy(temp,"(");
+					strcat(temp, st->type);	
+					strcat(temp, $2);		
+					strcat(temp, ")");					
+					sprintf(b,"%s",temp);
+
+					printf("Me llego: %s \n", $2);
+					if(strcmp(temp,"" )!=0){
+						printf("\n Regreso::: %s \n", temp);
+						$$ = temp;
+
 					}else{
 						$$="";
 					}
@@ -393,7 +421,25 @@ argumentos_llamada: ID lista_ids {
 				| /*no tiene argumentos*/ {$$ = "";} 
 ;
 
-lista_ids: ',' ID lista_ids {$$="";}
+lista_ids: ',' ID lista_ids {
+			char buff[350];			
+			char b[100];
+			char a[100];	
+			char result[100];	
+			//sprintf(buff,"%s", $2);
+			struct simbolo *st = search($2);
+			strcpy(buff,"X");
+			strcat(buff, st->type);				
+			sprintf(a,"%s", $3);
+			sprintf(b,"%s",buff);
+
+			printf("El a %s \n", a);
+			printf("El b %s \n", b);
+			strcat(b, a);
+
+			printf("Resulatado:  %s \n", b);
+			$$=b;
+		}
 		| /*vacio*/ {$$="";}
 ;
 
