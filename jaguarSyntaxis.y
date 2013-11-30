@@ -295,15 +295,13 @@ sentencia: asignacion ';'
 
 varID: ID {
 	struct simbolo *st = search($1);
-	if(st){
-		if( (!strcmp(st->name, "-1")) ){
-			strcpy(Errors[counter], "Variable no declarada previamente");
-			ErrorLineNumb[counter++] = yylineno;
-		}
+	if( (!strcmp(st->name, "-1")) ){
+		strcpy(Errors[counter], "Variable no declarada previamente");
+		ErrorLineNumb[counter++] = yylineno;
+		$$="";
+	}else{
 		$$=st->type;
 	}
-	else
-		$$="";
 }
 | attrstruct {$$=$1;}
 | ID '[' INTEGER ']' {
@@ -328,9 +326,10 @@ varID: ID {
 
 asignacion: varID '=' expresion {
 	if(strcmp($1,$3)){
-		printf("%s,%s",$1, $3);
-		strcpy(Errors[counter], "Tipos no compatibles para la asignacion");
-		ErrorLineNumb[counter++] = yylineno;
+		if(strcmp($1,"")){
+			strcpy(Errors[counter], "Tipos no compatibles para la asignacion");
+			ErrorLineNumb[counter++] = yylineno;
+		}
 	}
 }
 ;

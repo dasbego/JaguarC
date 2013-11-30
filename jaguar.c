@@ -82,9 +82,7 @@ struct simbolo * search(char* id){
  			tmp->name = "-1";      		
       //		strcpy(Errors[counter], "Se utilizo la varible antes de declarar");
       //		ErrorLineNumb[counter++] = yylineno;
-      		
       		return tmp;
-			//abort();
     }
 		
     if(++sp >= tablaSimbolos+TableHash) {sp = tablaSimbolos; /* Seguir intentando */}
