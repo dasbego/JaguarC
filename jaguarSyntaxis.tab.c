@@ -1897,9 +1897,9 @@ yyreduce:
     {
 	if(strcmp((yyvsp[(1) - (3)].c),(yyvsp[(3) - (3)].c))){
 		if(strcmp((yyvsp[(1) - (3)].c),"")){
-		strcpy(Errors[counter], "Tipos no compatibles para la asignacion");
-		ErrorLineNumb[counter++] = yylineno;
-	}
+			strcpy(Errors[counter], "Tipos no compatibles para la asignacion");
+			ErrorLineNumb[counter++] = yylineno;
+		}
 	}
 ;}
     break;

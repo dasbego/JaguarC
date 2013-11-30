@@ -13,6 +13,7 @@ int fcn1(string g, int qwe, int wer, string bnm);
 int fcn2(int x);
 
 main(){
+	int jkl;
 	int iop[5];
 	iop[0] = 1;
 	bool malz;
@@ -25,12 +26,12 @@ main(){
 				write("Hola mundo");
 			}
 		}else{
-			if((malz!=false)&&(true)||(1<=100)){
+			if(("hola"<=(1+"mundo"))){
 				string baca;
 			}else{
 			}
 		}
-		jkl = 1;
+		//jkl = 1+"hola";
 	}
 }
 

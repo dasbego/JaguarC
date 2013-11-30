@@ -93,30 +93,30 @@ struct simbolo * search(char* id){
 }
 
 char *resultOperations(char *a, char *b, char *op){
-	/*suma*/
+		/*suma*/
 	int operador = 0;
 
-	if(strcmp(op,"+")) operador =1;
-	if(strcmp(op,"-")) operador =2;
-	if(strcmp(op,"*")) operador =3;
-	if(strcmp(op,"/")) operador =4;
+	if(strcmp(op,"+")==0){ operador =1; }
+	if(strcmp(op,"-")==0){ operador =2; }
+	if(strcmp(op,"*")==0){ operador =3; }
+	if(strcmp(op,"/")==0){ operador =4; }
 
-	printf("A comparar: %s %s %s \n",a,op,b);
-
+	//printf("A comparar: %s %s %s ",a,op,b);
+	//printf("\n operador es %d \n", operador);
 	switch(operador){
 		case 1: 
-			if((strcmp(a,"string")&& (strcmp(b,"string") || strcmp(b,"int") || strcmp(b,"float")))
-				|| (strcmp(a,"real") && strcmp(b,"string")) || (strcmp(a,"int") && strcmp(b,"string"))){
+			if( (strcmp(a,"string")==0 && (strcmp(b,"string")==0 || strcmp(b,"int")==0 || strcmp(b,"float")==0) )
+				|| (strcmp(a,"real")==0 && strcmp(b,"string")==0) || (strcmp(a,"int")==0 && strcmp(b,"string")==0)) {
 				return "string";
 			}else{
-				if(strcmp(a,"int")&&strcmp(b,"int")){
+				if( (strcmp(a,"int") == 0)&& (strcmp(b,"int")==0)  ) {
 					return "int";
 				}else{
-					if ( (strcmp(a,"float")&&(strcmp(b,"int") || strcmp(b,"float"))) || (strcmp(a,"int") && strcmp(b,"float")) ){
+					if ( (strcmp(a,"float")==0 &&(strcmp(b,"int")==0 || strcmp(b,"float")==0)) || (strcmp(a,"int")==0 && strcmp(b,"float")==0) ){
 						return "float";
 					}
 					else{
-						if(strcmp(a,"bool") && strcmp(b,"bool")){
+						if(strcmp(a,"bool")==0 && strcmp(b,"bool")==0){
 							return "bool";
 						}
 						else {
@@ -127,16 +127,16 @@ char *resultOperations(char *a, char *b, char *op){
 			}
 			break;
 		case 2:
-			if((strcmp(a,"float") && (strcmp(b,"float") || strcmp(b,"int"))) 
-				|| (strcmp(a,"int") && strcmp(b,"float"))){
+			if((strcmp(a,"float")==0 && (strcmp(b,"float")==0 || strcmp(b,"int")==0)) 
+				|| (strcmp(a,"int")==0 && strcmp(b,"float")==0)){
 				return "float";
 			}
 			else{
-				if(strcmp(a,"int")&&strcmp(b,"int")){
+				if(strcmp(a,"int")==0 && strcmp(b,"int")==0){
 					return "int";
 				}
 				else{
-					if(strcmp(a,"bool") && strcmp(b,"bool")){
+					if(strcmp(a,"bool")==0 && strcmp(b,"bool")==0){
 						return "bool";
 					}
 					else{
@@ -146,19 +146,19 @@ char *resultOperations(char *a, char *b, char *op){
 			}
 			break;
 		case 3:
-			if((strcmp(a,"float") && (strcmp(b,"float") || strcmp(b,"int"))) 
-				|| (strcmp(a,"int") && strcmp(b,"float"))){
+			if((strcmp(a,"float")==0 && (strcmp(b,"float")==0 || strcmp(b,"int")==0)) 
+				|| (strcmp(a,"int")==0 && strcmp(b,"float")==0)){
 				return "float";
 			}
 			else{
-				if(strcmp(a,"int")&&strcmp(b,"int")){
+				if(strcmp(a,"int")==0&&strcmp(b,"int")==0){
 					return "int";
 				}
 				else{
-					if((strcmp(a,"string") && strcmp(b,"int") ) || (strcmp(a,"int")&&strcmp(b,"string"))){
+					if((strcmp(a,"string")==0 && strcmp(b,"int")==0 ) || (strcmp(a,"int")==0 &&strcmp(b,"string")==0)){
 						return "string";
 					}else{
-						if(strcmp(a,"bool") && strcmp(b,"bool")){
+						if(strcmp(a,"bool")==0 && strcmp(b,"bool")==0){
 							return "bool";
 						}else{
 							return "error";
@@ -168,8 +168,8 @@ char *resultOperations(char *a, char *b, char *op){
 			}
 			break;
 		case 4:
-			if((strcmp(a,"float") && (strcmp(b,"float") || strcmp(b,"int"))) 
-				|| (strcmp(a,"int") && (strcmp(b,"float") || strcmp(b,"int")))){
+			if((strcmp(a,"float")==0 && (strcmp(b,"float")==0 || strcmp(b,"int")==0)) 
+				|| (strcmp(a,"int")==0 && (strcmp(b,"float")==0 || strcmp(b,"int")==0))){
 				return "float";
 			}else{
 				return "error";
