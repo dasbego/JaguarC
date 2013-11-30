@@ -8,6 +8,7 @@ char *compareTypes(char*a,char*b);
 char *resultOperations(char *a, char *b, char *op);
 char *getTypeOfFunc(char text[]);
 char *getTypeOfArray(char text[]);
+int getRangeOfArray(char text[]);
 
 //tamano y tabla de simbolos
 #define TableHash 9990

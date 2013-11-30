@@ -21,7 +21,7 @@ int yywrap(){
 
 
 void yyerror(char *s, ...){
-	fprintf(stderr, "%d: error", yylineno);
+	fprintf(stderr, "%d: error ", yylineno);
 	fprintf(stderr,"%s \n", s);
 } 
 
@@ -202,13 +202,27 @@ char *getTypeOfArray(char text[])
 	return typeArray;
 }
 
+int getRangeOfArray(char text[])
+{
+	char *typeArray;
+	char tmp[50];
+	sprintf(tmp, "%s", text);
+	typeArray = strtok(tmp, ".");
+	typeArray = strtok(NULL, ".");
+	typeArray = strtok(typeArray, ",");
+	int range = atoi(typeArray);
+	return range;
+}
+
 void printSimbTable(){
 	int indx;
+	printf("---------- Tabla de Simbolos ------------\n");
 	for (indx = 0;indx<TableHash; indx++) {
 		if (tablaSimbolos[indx].name) {
 			printf("ID: %s | Type: %s | Scope: %s\n",tablaSimbolos[indx].name,tablaSimbolos[indx].type, tablaSimbolos[indx].scope);
 		}
 	}	
+	printf("---------- --------------- ------------\n");
 }
 
 int yyparse();

@@ -1,7 +1,4 @@
 * DE FUNCIONES:
-	- Checar que tengan el mismo tipo de como fueron declaradas en las firmas.
-	- que tengan el mismo número de parámetros que en las firmas.
-	- que tengan el mismo tipo que en las firmas.
 	- si tiene tipo de retorno que tenga un RETURN dentro de la funcion.
 		- que el tipo de la expresion que regresa sea del tipo que regresa la funcion.
 

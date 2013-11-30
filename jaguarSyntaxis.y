@@ -84,7 +84,7 @@ estructura: STRUCT ID '{' varstruct '}' ';' {
 				/*cuando se declara un struct*/
 				char sc[30];
 				char contStruct[300];
-				sprintf(contStruct, "Struct{%s}", $4);				
+				sprintf(contStruct, "Struct{}");				
 				sprintf(sc,"%s",$2);
 				insertTable($2,strdup(contStruct),sc);
 				actualizaScopes($2);
@@ -103,25 +103,55 @@ sigvarStruct: /*ya no hay variables*/ {$$="";}
 			| varstruct { $$=$1;}
 ;
 
-attrstruct: ID "." ID {
+attrstruct: ID '.' ID {
 		struct simbolo *checkStruct = search($1);
 		struct simbolo *checkStruct2 = search($3);
-		if( (strcmp(checkStruct->name, "-1")) && (strcmp(checkStruct2->name, "-1")) )
-			$$ = $3;
-		else{				
+		if( !strcmp(checkStruct->name, "-1") || !strcmp(checkStruct2->name, "-1") ){
 			strcpy(Errors[counter], "variable o atributo desconocido.");
 			ErrorLineNumb[counter++] = yylineno;
+		}else{
+			//checar que el primer id sea tipo struct
+			if(strcmp(checkStruct->type,"Struct{}")){
+				//printf("%s",checkStruct->type);
+				strcpy(Errors[counter], "Variable no es de tipo Struct");
+				ErrorLineNumb[counter++] = yylineno;
+			}else{
+				if(strcmp(checkStruct2->scope,checkStruct->scope)){
+					strcpy(Errors[counter], "Variable no es atributo de esa estructura.");
+					ErrorLineNumb[counter++] = yylineno;
+				}
+				$$ = checkStruct2->type;	
+			}
 		}
 	}
-	| ID '.' ID '[' INTEGER ']'{
-			//buscar si $1 existe y despues si $3 existe entonces $$ = $3
+	|ID '.' ID '[' INTEGER ']'{
 		struct simbolo *checkStruct = search($1);
 		struct simbolo *checkStruct2 = search($3);
-		if( (strcmp(checkStruct->name, "-1")) && (strcmp(checkStruct2->name, "-1")) )
-			$$ = $3;
-		else{
+		if( !strcmp(checkStruct->name, "-1") || !strcmp(checkStruct2->name, "-1") ){
 			strcpy(Errors[counter], "variable o atributo desconocido.");
 			ErrorLineNumb[counter++] = yylineno;
+		}else{
+			//checar que el primer id sea tipo struct
+			if(strcmp(checkStruct->type,"Struct{}")){
+				//printf("%s",checkStruct->type);
+				strcpy(Errors[counter], "Variable no es de tipo Struct");
+				ErrorLineNumb[counter++] = yylineno;
+			}else{//checar que id2 ete en el scope de id1
+				if(strcmp(checkStruct2->scope,checkStruct->scope)){
+					strcpy(Errors[counter], "Variable no es atributo de esa estructura.");
+					ErrorLineNumb[counter++] = yylineno;
+				}
+				char idtype[10];
+				sprintf(idtype,"%s",getTypeOfArray(checkStruct2->type));
+				int yuyu = getRangeOfArray(checkStruct2->type);
+				if($5>=yuyu || $5<0){
+					char error[50];
+					sprintf(error,"Indice fuera del arreglo. Tamaño de '%s' es de %d",checkStruct2->name, $5);
+					strcpy(Errors[counter], error);
+					ErrorLineNumb[counter++] = yylineno;
+				}
+				$$ = idtype;	
+			}
 		}
 	}
 ;
@@ -136,7 +166,6 @@ firmasFunciones: firma sigFirma {
 
 sigFirma: firma sigFirma {
 	struct simbolo *st = $1;
-	//insertTable(st->name, st->type, st->scope);
 	actualizaScopes(st->scope);
 	$$="";
 }
@@ -153,7 +182,6 @@ firma: TYPE ID '(' argumentos_declaracion_firma ')' ';'{
 		sprintf(type, "(%s)->%s",$4,$1);
 		st->type = type;
 		insertTable(st->name, st->type, st->scope);
-		//printf("PITOCHU %s\n", st->type);
 		$$=st;
 }
 ;
@@ -282,9 +310,10 @@ varID: ID {
 		$$=st->type;
 	}
 }
-| attrstruct {$$=$1;}
+| attrstruct {
+	$$=$1;
+}
 | ID '[' INTEGER ']' {
-	//checar si este ID sí es array
 	struct simbolo *st = search($1);
 	char idtype[10];
 	sprintf(idtype,"%s",getTypeOfArray(st->type));
