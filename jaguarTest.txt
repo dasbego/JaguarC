@@ -15,7 +15,7 @@ int fcn2(int x);
 main(){
 	int jkl;
 	int iop[5];
-	iop[0] = 1;
+	iop[0] = 1+1;
 	bool malz;
 	malz = false;
 	if((malz)){
