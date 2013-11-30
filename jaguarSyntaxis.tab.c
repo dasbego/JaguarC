@@ -491,10 +491,10 @@ static const yytype_uint16 yyrline[] =
      189,   197,   200,   211,   214,   220,   228,   239,   244,   247,
      250,   253,   264,   267,   271,   276,   279,   284,   287,   290,
      291,   292,   295,   296,   297,   298,   299,   300,   303,   313,
-     316,   344,   354,   357,   360,   365,   380,   381,   384,   393,
-     396,   397,   400,   410,   418,   426,   434,   437,   442,   443,
-     444,   445,   448,   452,   457,   462,   463,   465,   468,   469,
-     478,   479,   480
+     316,   344,   354,   357,   360,   365,   398,   399,   402,   421,
+     424,   443,   446,   456,   464,   472,   480,   483,   488,   489,
+     490,   491,   494,   498,   503,   508,   509,   511,   514,   515,
+     524,   525,   526
 };
 #endif
 
@@ -1946,28 +1946,56 @@ yyreduce:
 
   case 55:
 #line 365 "jaguarSyntaxis.y"
-    {			
-				struct simbolo *checkStruct = search((yyvsp[(1) - (4)].c));
-				if((strcmp(checkStruct->name, "-1")))
+    {		
+				
+				
+				struct simbolo *checkStruct = search((yyvsp[(1) - (4)].c));				
+				char *typeFunc;
+				char typee[100];
+				sprintf(typee, "%s", checkStruct->type);
+
+    			typeFunc = strtok(checkStruct->type, "-" );
+				
+				printf("Se compara: %s y %s", (yyvsp[(3) - (4)].c), typeFunc);
+				if( (strcmp((yyvsp[(3) - (4)].c), typeFunc)!=0 ) )
 				{
-					char regtype[10];
-					sprintf(regtype,"%s",getTypeOfFunc(checkStruct->type));
-					(yyval.c) = regtype;
-				}
-				else{				
-					strcpy(Errors[counter], "Funcion desconocida/no declarada");
+					strcpy(Errors[counter], "PArametros incorrectos");
 					ErrorLineNumb[counter++] = yylineno;
+					printf("Fueron incorrectos\n");
+				}
+				else{	
+					if((strcmp(checkStruct->name, "-1") !=0))
+					{
+						char *regtype = malloc(sizeof(char));
+						sprintf(regtype,"%s",getTypeOfFunc(typee));
+						printf("\nSe regresa el tipo de funcion: %s \n", regtype);
+						(yyval.c) = regtype;
+					}
+					else{				
+						strcpy(Errors[counter], "Funcion desconocida/no declarada");
+						ErrorLineNumb[counter++] = yylineno;
+					}
 				}
 			;}
     break;
 
   case 58:
-#line 384 "jaguarSyntaxis.y"
+#line 402 "jaguarSyntaxis.y"
     {
-					if(strcmp((yyvsp[(2) - (2)].c),"")){
-						char buff[350];
-						sprintf(buff,"%s", (yyvsp[(1) - (2)].c));
-						(yyval.c) = buff;
+					struct simbolo *st = search((yyvsp[(1) - (2)].c));
+					char temp[70];
+					char b[100];					
+					strcpy(temp,"(");
+					strcat(temp, st->type);	
+					strcat(temp, (yyvsp[(2) - (2)].c));		
+					strcat(temp, ")");					
+					sprintf(b,"%s",temp);
+
+					printf("Me llego: %s \n", (yyvsp[(2) - (2)].c));
+					if(strcmp(temp,"" )!=0){
+						printf("\n Regreso::: %s \n", temp);
+						(yyval.c) = temp;
+
 					}else{
 						(yyval.c)="";
 					}
@@ -1975,22 +2003,40 @@ yyreduce:
     break;
 
   case 59:
-#line 393 "jaguarSyntaxis.y"
+#line 421 "jaguarSyntaxis.y"
     {(yyval.c) = "";;}
     break;
 
   case 60:
-#line 396 "jaguarSyntaxis.y"
-    {(yyval.c)="";;}
+#line 424 "jaguarSyntaxis.y"
+    {
+			char buff[350];			
+			char b[100];
+			char a[100];	
+			char result[100];	
+			//sprintf(buff,"%s", $2);
+			struct simbolo *st = search((yyvsp[(2) - (3)].c));
+			strcpy(buff,"X");
+			strcat(buff, st->type);				
+			sprintf(a,"%s", (yyvsp[(3) - (3)].c));
+			sprintf(b,"%s",buff);
+
+			printf("El a %s \n", a);
+			printf("El b %s \n", b);
+			strcat(b, a);
+
+			printf("Resulatado:  %s \n", b);
+			(yyval.c)=b;
+		;}
     break;
 
   case 61:
-#line 397 "jaguarSyntaxis.y"
+#line 443 "jaguarSyntaxis.y"
     {(yyval.c)="";;}
     break;
 
   case 62:
-#line 400 "jaguarSyntaxis.y"
+#line 446 "jaguarSyntaxis.y"
     {
 						//printf("%s\n",resultOperations($1,$3,"+"));
 						if(strcmp (resultOperations((yyvsp[(1) - (3)].c),(yyvsp[(3) - (3)].c),"+"), "error") == 0)
@@ -2004,7 +2050,7 @@ yyreduce:
     break;
 
   case 63:
-#line 410 "jaguarSyntaxis.y"
+#line 456 "jaguarSyntaxis.y"
     {
 						if(strcmp (resultOperations((yyvsp[(1) - (3)].c),(yyvsp[(3) - (3)].c),"-"), "error") == 0)
 						{
@@ -2016,7 +2062,7 @@ yyreduce:
     break;
 
   case 64:
-#line 418 "jaguarSyntaxis.y"
+#line 464 "jaguarSyntaxis.y"
     {
 						if(strcmp (resultOperations((yyvsp[(1) - (3)].c),(yyvsp[(3) - (3)].c),"*"), "error") == 0)
 						{
@@ -2028,7 +2074,7 @@ yyreduce:
     break;
 
   case 65:
-#line 426 "jaguarSyntaxis.y"
+#line 472 "jaguarSyntaxis.y"
     {
 						if(strcmp (resultOperations((yyvsp[(1) - (3)].c),(yyvsp[(3) - (3)].c),"/"), "error") == 0)
 						{
@@ -2040,41 +2086,41 @@ yyreduce:
     break;
 
   case 66:
-#line 434 "jaguarSyntaxis.y"
+#line 480 "jaguarSyntaxis.y"
     {
 						(yyval.c) = (yyvsp[(1) - (1)].c);
 					;}
     break;
 
   case 67:
-#line 437 "jaguarSyntaxis.y"
+#line 483 "jaguarSyntaxis.y"
     {
 						(yyval.c)=(yyvsp[(1) - (1)].c);
 					;}
     break;
 
   case 68:
-#line 442 "jaguarSyntaxis.y"
+#line 488 "jaguarSyntaxis.y"
     {(yyval.c)="int";;}
     break;
 
   case 69:
-#line 443 "jaguarSyntaxis.y"
+#line 489 "jaguarSyntaxis.y"
     {(yyval.c)="float";;}
     break;
 
   case 70:
-#line 444 "jaguarSyntaxis.y"
+#line 490 "jaguarSyntaxis.y"
     {(yyval.c)="string";;}
     break;
 
   case 71:
-#line 445 "jaguarSyntaxis.y"
+#line 491 "jaguarSyntaxis.y"
     {(yyval.c)="bool";;}
     break;
 
   case 72:
-#line 448 "jaguarSyntaxis.y"
+#line 494 "jaguarSyntaxis.y"
     {
 			(yyval.c) = "";
 
@@ -2082,38 +2128,38 @@ yyreduce:
     break;
 
   case 73:
-#line 452 "jaguarSyntaxis.y"
+#line 498 "jaguarSyntaxis.y"
     {
 			(yyval.c) = "";
 ;}
     break;
 
   case 74:
-#line 457 "jaguarSyntaxis.y"
+#line 503 "jaguarSyntaxis.y"
     {
 		(yyval.c) = "";
 ;}
     break;
 
   case 75:
-#line 462 "jaguarSyntaxis.y"
+#line 508 "jaguarSyntaxis.y"
     {(yyval.c) = "";;}
     break;
 
   case 76:
-#line 463 "jaguarSyntaxis.y"
+#line 509 "jaguarSyntaxis.y"
     {(yyval.c) = "";;}
     break;
 
   case 77:
-#line 465 "jaguarSyntaxis.y"
+#line 511 "jaguarSyntaxis.y"
     {
 
 	;}
     break;
 
   case 79:
-#line 469 "jaguarSyntaxis.y"
+#line 515 "jaguarSyntaxis.y"
     {
 		struct simbolo *sp = search((yyvsp[(1) - (1)].c));
 		if(strcmp(sp->type,"bool")!=0){
@@ -2125,7 +2171,7 @@ yyreduce:
 
 
 /* Line 1267 of yacc.c.  */
-#line 2129 "jaguarSyntaxis.tab.c"
+#line 2175 "jaguarSyntaxis.tab.c"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);
@@ -2339,5 +2385,5 @@ yyreturn:
 }
 
 
-#line 484 "jaguarSyntaxis.y"
+#line 530 "jaguarSyntaxis.y"
  
