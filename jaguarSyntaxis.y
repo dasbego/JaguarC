@@ -395,6 +395,7 @@ llamada_a_funcion: ID '(' argumentos_llamada ')' {
 						ErrorLineNumb[counter++] = yylineno;
 					}
 				}
+				$$="";
 			}
 ;
 
@@ -417,9 +418,8 @@ argumentos_llamada: ID lista_ids {
 						//printf("\n Regreso::: %s \n", temp);
 						$$ = temp;
 
-					}else{
-						$$="";
 					}
+					$$="";
 				}
 				| /*no tiene argumentos*/ {$$ = "";} 
 ;
