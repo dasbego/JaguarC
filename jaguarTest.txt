@@ -8,10 +8,6 @@ struct vaso{
 	string m[10];
 };
 
-//single line comment
-int fcn1(string g, int qwe, int wer, string bnm);
-int fcn2(int x);
-
 main(){
 	float jkl;
 	int iop[5];
@@ -33,15 +29,6 @@ main(){
 		}
 		jkl = 1+3.1416;
 	}
-}
-
-void fcn1(){
-	int mouse;
-}
-
-//single line comment
-int fcn2(){
-	string sleep;
 }
 
 programEnd

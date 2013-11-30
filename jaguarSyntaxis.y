@@ -132,6 +132,7 @@ firmasFunciones: firma sigFirma {
 	actualizaScopes(st->scope);
 	$$="";
 }
+| /**/ {$$="";}
 ;
 
 sigFirma: firma sigFirma {
