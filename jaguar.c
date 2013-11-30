@@ -70,8 +70,6 @@ struct simbolo * search(char* id){
   struct simbolo *sp = &tablaSimbolos[idToHash(id)%TableHash]; //obtener entrada
   int scount = TableHash;
 
-  // printf("a buscar: %s",id);
-  // printf("saque: %s",sp->name);
   while(--scount >= 0) {
     if(sp->name && !strcmp(sp->name, id)) {
      return sp; 
@@ -80,8 +78,6 @@ struct simbolo * search(char* id){
     if(!sp->name) {		/* Entrada Vacia */
  			struct simbolo * tmp = malloc(sizeof (struct simbolo));
  			tmp->name = "-1";      		
-      //		strcpy(Errors[counter], "Se utilizo la varible antes de declarar");
-      //		ErrorLineNumb[counter++] = yylineno;
       		return tmp;
     }
 		

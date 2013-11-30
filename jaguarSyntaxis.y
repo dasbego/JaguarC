@@ -218,27 +218,15 @@ lista_variables: ',' variable lista_variables {
 ;
 
 declaracionf: funcion lista_funciones {
-				if(strcmp($2,""))
-				{
-					struct simbolo *st = $1;
-					//printf("%s", st->name);
-					//insertTable(st->name, st->type, st->scope);
-					//actualizaScopes(st->name);
-				}
 				$$ = "";
 			}
 			| /*no hay funciones*/ {$$ = "";}
 ;
 
 funcion: TYPE ID '(' argumentos_declaracion ')' '{' cuerpo '}' {
-	struct simbolo *st = malloc(sizeof(struct simbolo));
-	char buff[300];
-	sprintf(buff, "(%s)->%s", $4, $1);
-	st->name = $2;
-	st->type = buff;	
-	st->scope = $2;
+	struct simbolo *abus = search($2);	
 	actualizaScopes($2);
-	$$ = st;
+	$$=abus;
 }
 ;
 
@@ -250,30 +238,17 @@ lista_funciones: funcion lista_funciones {
 
 //Cuando se crea la funcion
 argumentos_declaracion: variable lista_argumentos{
-				char *tmp;
 			 	struct simbolo *st = $1;
 			 	insertTable(st->name, st->type, st->scope);	
-				tmp = st->type;
-				strcat(tmp, $2);
-				//printf("Regreso %s\n",tmp);
-				$$ = tmp;
+				$$ = "";
 			}
 					|/*vacio*/ {$$ = "";}
 ;
 
 lista_argumentos: ',' variable lista_argumentos {
-					char *temp;
-					char a[50];
-					char b[100];
 					struct simbolo *st = $2;
-			 		insertTable(st->name, st->type, st->scope);					
-					strcpy(temp,"X");
-					strcat(temp,st->type);					
-					sprintf(a,"%s", $3);
-					strcat(temp, $3);				
-					sprintf(b,"%s",temp);
-					//printf("Regreso %s\n",b);
-					$$ = b;
+			 		insertTable(st->name, st->type, st->scope);	
+					$$ = "";
 				}
 				| /*vacio*/ {$$ = "";}
 ;
@@ -354,7 +329,6 @@ llamada_a_funcion: ID '(' argumentos_llamada ')' {
 					sprintf(regtype,"%s",getTypeOfFunc(checkStruct->type));
 					$$ = regtype;
 				}
-
 				else{				
 					strcpy(Errors[counter], "Funcion desconocida/no declarada");
 					ErrorLineNumb[counter++] = yylineno;
@@ -421,16 +395,6 @@ expresion_aritmetica: expresion_aritmetica '+' expresion_aritmetica {
 					}
 					| varID {
 						$$=$1;
-						// //							NOTA * Type void!!! Se puede hacer operaciones?
-						// struct simbolo *st;
-						// st = search($1);
-						// if( (!strcmp(st->name, "-1")) ){
-						// 	strcpy(Errors[counter], "No se ha encontrado el ID para la expresion aritmetica");
-						// 	ErrorLineNumb[counter++] = yylineno;
-						// 	$$ = "void";
-						// }else{
-						// 	$$ = st->type;
-						// }
 					}
 ;
 
@@ -438,7 +402,6 @@ valor: INTEGER {$$="int";}
 	| REAL {$$="float";}
 	| CADENA {$$="string";}
 	| BOOLEAN {$$="bool";}
-	// | attrstruct {$$=$1;}
 ;
 
 iteracion: FOR '(' asignacion ';' lista_condiciones ';' asignacion ')' '{' cuerpo '}' {

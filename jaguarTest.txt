@@ -10,10 +10,9 @@ struct vaso{
 
 //single line comment
 int fcn1(string g, int qwe, int wer, string bnm);
-int fcn2(int x);
 
 main(){
-	float jkl;
+	int ___Jkl;
 	int iop[5];
 	iop[0] = 1;
 	bool malz;
@@ -22,7 +21,7 @@ main(){
 		if((malz!=false)&&(true)||(1<=100)){
 			int i;
 			i=0;
-			for(;(i<10);i=1){
+			for(;(i<10);i=1+1){
 				write("Hola mundo");
 			}
 		}else{
@@ -31,17 +30,12 @@ main(){
 			}else{
 			}
 		}
-		jkl = 1+3.1416;
+		___Jkl = fcn1();
 	}
 }
 
-void fcn1(){
+int fcn1(string g, int qwe, int wer, string bnm){
 	int mouse;
-}
-
-//single line comment
-int fcn2(){
-	string sleep;
 }
 
 programEnd
