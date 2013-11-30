@@ -1,5 +1,5 @@
 %{
-	#include "jaguarSyntaxis.tab.h"
+	#include "y.tab.h"
 	#include "jaguar.h"
 	#include <stdlib.h>
 
@@ -35,6 +35,11 @@ write			{return WRITE;}
 
 for {return FOR;}
 
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> Se arreglo las operaciones aritmeticas
 [0-9]+"."[0-9]+ {yylval.f = atof(yytext);
 				return REAL;}
 

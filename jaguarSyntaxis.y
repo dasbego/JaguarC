@@ -299,6 +299,16 @@ varID: ID {
 		if( (!strcmp(st->name, "-1")) ){
 			strcpy(Errors[counter], "Variable no declarada previamente");
 			ErrorLineNumb[counter++] = yylineno;
+<<<<<<< HEAD
+=======
+		}else{
+			if(strcmp(st->type,$3)){
+				//yyerror("Tipos no compatibles para la asignacion");
+				//printf("\nSe comparo : %s y %s \n", st->type, $3);
+				strcpy(Errors[counter], "Tipos no compatibles para la asignacion");
+				ErrorLineNumb[counter++] = yylineno;
+			}
+>>>>>>> Se arreglo las operaciones aritmeticas
 		}
 		$$=st->type;
 	}
@@ -352,6 +362,7 @@ llamada_a_funcion: ID '(' argumentos_llamada ')' {
 				{
 					char regtype[10];
 					sprintf(regtype,"%s",getTypeOfFunc(checkStruct->type));
+					//printf("Todo el type: %s\n",regtype);
 					$$ = regtype;
 				}
 
@@ -383,7 +394,6 @@ lista_ids: ',' ID lista_ids {$$="";}
 ;
 
 expresion_aritmetica: expresion_aritmetica '+' expresion_aritmetica {
-						printf("%s\n",resultOperations($1,$3,"+"));
 						if(strcmp (resultOperations($1,$3,"+"), "error") == 0)
 						{
 							strcpy(Errors[counter], "Operacion no permitida entre los Tipos");
@@ -419,6 +429,7 @@ expresion_aritmetica: expresion_aritmetica '+' expresion_aritmetica {
 					| valor {
 						$$ = $1;
 					}
+<<<<<<< HEAD
 					| varID {
 						$$=$1;
 						// //							NOTA * Type void!!! Se puede hacer operaciones?
@@ -431,6 +442,20 @@ expresion_aritmetica: expresion_aritmetica '+' expresion_aritmetica {
 						// }else{
 						// 	$$ = st->type;
 						// }
+=======
+					| ID {
+						//							NOTA * Type void!!! Se puede hacer operaciones?
+						struct simbolo *st;
+						st = search($1);
+						if( (!strcmp(st->name, "-1")) ){
+							strcpy(Errors[counter], "No se ha encontrado el ID para la expresion aritmetica");
+							ErrorLineNumb[counter++] = yylineno;
+							$$ = "void";
+						}else{
+							//printf("*Regreso: %s \n", st->type);
+							$$ = st->type;
+						}
+>>>>>>> Se arreglo las operaciones aritmeticas
 					}
 ;
 
