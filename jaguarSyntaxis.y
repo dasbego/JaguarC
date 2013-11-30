@@ -382,7 +382,7 @@ lista_ids: ',' ID lista_ids {$$="";}
 ;
 
 expresion_aritmetica: expresion_aritmetica '+' expresion_aritmetica {
-						printf("%s\n",resultOperations($1,$3,"+"));
+						//printf("%s\n",resultOperations($1,$3,"+"));
 						if(strcmp (resultOperations($1,$3,"+"), "error") == 0)
 						{
 							strcpy(Errors[counter], "Operacion no permitida entre los Tipos");

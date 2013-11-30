@@ -1974,7 +1974,7 @@ yyreduce:
   case 61:
 #line 384 "jaguarSyntaxis.y"
     {
-						printf("%s\n",resultOperations((yyvsp[(1) - (3)].c),(yyvsp[(3) - (3)].c),"+"));
+						//printf("%s\n",resultOperations($1,$3,"+"));
 						if(strcmp (resultOperations((yyvsp[(1) - (3)].c),(yyvsp[(3) - (3)].c),"+"), "error") == 0)
 						{
 							strcpy(Errors[counter], "Operacion no permitida entre los Tipos");
