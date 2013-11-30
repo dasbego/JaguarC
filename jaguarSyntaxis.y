@@ -143,7 +143,8 @@ attrstruct: ID '.' ID {
 				}
 				char idtype[10];
 				sprintf(idtype,"%s",getTypeOfArray(checkStruct2->type));
-				int yuyu = getRangeOfArray(checkStruct2->type);
+				int yuyu;
+				yuyu = getRangeOfArray(checkStruct2->type);
 				if($5>=yuyu || $5<0){
 					char error[100];
 					sprintf(error,"Indice fuera del arreglo. Tamaño de '%s' es de %d",checkStruct2->name, $5);
@@ -153,6 +154,7 @@ attrstruct: ID '.' ID {
 				$$ = idtype;	
 			}
 		}
+		$$="";
 	}
 ;
 
@@ -319,7 +321,8 @@ varID: ID {
 	sprintf(idtype,"%s",getTypeOfArray(st->type));
 	if(st){
 		char tmp[3];
-		for(int i=0;i<3;i++){
+		int i;
+		for(i=0;i<3;i++){
 			tmp[i] = st->type[i];
 		}
 		//printf("%c\n",tmp[0]);
@@ -336,8 +339,8 @@ varID: ID {
 				ErrorLineNumb[counter++] = yylineno;
 			}
 		}
+		$$=idtype;
 	}
-	$$=idtype;
 }
 ;
 
