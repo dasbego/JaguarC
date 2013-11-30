@@ -1901,7 +1901,7 @@ yyreduce:
 			if((yyvsp[(3) - (4)].i)>=yuyu || (yyvsp[(3) - (4)].i)<0){
 				char fail[100];
 				sprintf(fail,"Indice fuera del arreglo. Tamaño de '%s' es de %d",st->name, (yyvsp[(3) - (4)].i));
-				printf("chile");
+				//printf("chile");
 				strcpy(Errors[counter], fail);
 				ErrorLineNumb[counter++] = yylineno;
 			}
@@ -1956,12 +1956,12 @@ yyreduce:
 
     			typeFunc = strtok(checkStruct->type, "-" );
 				
-				printf("Se compara: %s y %s", (yyvsp[(3) - (4)].c), typeFunc);
+				//printf("Se compara: %s y %s", $3, typeFunc);
 				if( (strcmp((yyvsp[(3) - (4)].c), typeFunc)!=0 ) )
 				{
 					strcpy(Errors[counter], "PArametros incorrectos");
 					ErrorLineNumb[counter++] = yylineno;
-					printf("Fueron incorrectos\n");
+					//printf("Fueron incorrectos\n");
 				}
 				else{	
 					if((strcmp(checkStruct->name, "-1") !=0))
@@ -1991,9 +1991,9 @@ yyreduce:
 					strcat(temp, ")");					
 					sprintf(b,"%s",temp);
 
-					printf("Me llego: %s \n", (yyvsp[(2) - (2)].c));
+					//printf("Me llego: %s \n", $2);
 					if(strcmp(temp,"" )!=0){
-						printf("\n Regreso::: %s \n", temp);
+						//printf("\n Regreso::: %s \n", temp);
 						(yyval.c) = temp;
 
 					}else{
@@ -2021,11 +2021,11 @@ yyreduce:
 			sprintf(a,"%s", (yyvsp[(3) - (3)].c));
 			sprintf(b,"%s",buff);
 
-			printf("El a %s \n", a);
-			printf("El b %s \n", b);
+			//printf("El a %s \n", a);
+			//printf("El b %s \n", b);
 			strcat(b, a);
 
-			printf("Resulatado:  %s \n", b);
+			//printf("Resulatado:  %s \n", b);
 			(yyval.c)=b;
 		;}
     break;

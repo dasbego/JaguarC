@@ -331,7 +331,7 @@ varID: ID {
 			if($3>=yuyu || $3<0){
 				char fail[100];
 				sprintf(fail,"Indice fuera del arreglo. Tamaño de '%s' es de %d",st->name, $3);
-				printf("chile");
+				//printf("chile");
 				strcpy(Errors[counter], fail);
 				ErrorLineNumb[counter++] = yylineno;
 			}
@@ -372,12 +372,12 @@ llamada_a_funcion: ID '(' argumentos_llamada ')' {
 
     			typeFunc = strtok(checkStruct->type, "-" );
 				
-				printf("Se compara: %s y %s", $3, typeFunc);
+				//printf("Se compara: %s y %s", $3, typeFunc);
 				if( (strcmp($3, typeFunc)!=0 ) )
 				{
 					strcpy(Errors[counter], "PArametros incorrectos");
 					ErrorLineNumb[counter++] = yylineno;
-					printf("Fueron incorrectos\n");
+					//printf("Fueron incorrectos\n");
 				}
 				else{	
 					if((strcmp(checkStruct->name, "-1") !=0))
@@ -409,9 +409,9 @@ argumentos_llamada: ID lista_ids {
 					strcat(temp, ")");					
 					sprintf(b,"%s",temp);
 
-					printf("Me llego: %s \n", $2);
+					//printf("Me llego: %s \n", $2);
 					if(strcmp(temp,"" )!=0){
-						printf("\n Regreso::: %s \n", temp);
+						//printf("\n Regreso::: %s \n", temp);
 						$$ = temp;
 
 					}else{
@@ -433,11 +433,11 @@ lista_ids: ',' ID lista_ids {
 			sprintf(a,"%s", $3);
 			sprintf(b,"%s",buff);
 
-			printf("El a %s \n", a);
-			printf("El b %s \n", b);
+			//printf("El a %s \n", a);
+			//printf("El b %s \n", b);
 			strcat(b, a);
 
-			printf("Resulatado:  %s \n", b);
+			//printf("Resulatado:  %s \n", b);
 			$$=b;
 		}
 		| /*vacio*/ {$$="";}
