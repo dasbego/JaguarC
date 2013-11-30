@@ -120,7 +120,6 @@ attrstruct: ID "." ID {
 		if( (strcmp(checkStruct->name, "-1")) && (strcmp(checkStruct2->name, "-1")) )
 			$$ = $3;
 		else{
-			
 			strcpy(Errors[counter], "variable o atributo desconocido.");
 			ErrorLineNumb[counter++] = yylineno;
 		}
@@ -225,6 +224,10 @@ declaracionf: funcion lista_funciones {
 
 funcion: TYPE ID '(' argumentos_declaracion ')' '{' cuerpo '}' {
 	struct simbolo *abus = search($2);	
+	if(!strcmp(abus->name,"-1")){
+		strcpy(Errors[counter], "No se ha firmado la funcion.");
+		ErrorLineNumb[counter++] = yylineno;
+	}
 	actualizaScopes($2);
 	$$=abus;
 }
