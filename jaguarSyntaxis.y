@@ -145,7 +145,7 @@ attrstruct: ID '.' ID {
 				sprintf(idtype,"%s",getTypeOfArray(checkStruct2->type));
 				int yuyu = getRangeOfArray(checkStruct2->type);
 				if($5>=yuyu || $5<0){
-					char error[50];
+					char error[100];
 					sprintf(error,"Indice fuera del arreglo. Tamaño de '%s' es de %d",checkStruct2->name, $5);
 					strcpy(Errors[counter], error);
 					ErrorLineNumb[counter++] = yylineno;
@@ -326,6 +326,15 @@ varID: ID {
 		if(tmp[0]!='a'){
 			strcpy(Errors[counter], "Variable no es de tipo arreglo");
 			ErrorLineNumb[counter++] = yylineno;
+		}else{
+			int yuyu = getRangeOfArray(st->type);
+			if($3>=yuyu || $3<0){
+				char fail[100];
+				sprintf(fail,"Indice fuera del arreglo. Tamaño de '%s' es de %d",st->name, $3);
+				printf("chile");
+				strcpy(Errors[counter], fail);
+				ErrorLineNumb[counter++] = yylineno;
+			}
 		}
 	}
 	$$=idtype;

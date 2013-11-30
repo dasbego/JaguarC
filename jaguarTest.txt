@@ -14,7 +14,7 @@ int fcn1(string g, int qwe, int wer, string bnm);
 main(){
 	int ___Jkl;
 	int iop[5];
-	iop[10] = 1;
+	___Jkl = iop[4];
 	vaso.m[0] = ___Jkl;
 	bool malz;
 	malz = false;
