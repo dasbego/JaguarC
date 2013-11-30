@@ -12,11 +12,12 @@ void fcn1(string g, int qwe, int wer, string bnm);
 void fcn2(int x);
 
 main(){
+	int jkl;
 	bool vien; 
 	vien = true;
 	bool malz;
 	malz = false;
-	if((vien==true)||(malz!=vien)){
+	if((malz)){
 		int i;
 		i=0;
 		for(;(i<10);i=1){

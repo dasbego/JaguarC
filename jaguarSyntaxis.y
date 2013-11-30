@@ -445,7 +445,14 @@ sino: /*no tiene else*/ {$$ = "";}
 condicion: expresion OPERADORRELACIONAL expresion {
 
 	}
-	| BOOLEAN 
+	| BOOLEAN
+	| ID {
+		struct simbolo *sp = search($1);
+		if(strcmp(sp->type,"bool")!=0){
+			strcpy(Errors[counter], "ID usado para condicion no es tipo bool");
+			ErrorLineNumb[counter++] = yylineno;
+		}
+	} 
 ;
 
 lista_condiciones: '(' condicion ')'

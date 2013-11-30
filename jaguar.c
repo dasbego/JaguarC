@@ -186,6 +186,24 @@ char *resultOperations(char *a, char *b, char *op){
 	return "";
 }
 
+char *getTypeOfFunc(char text[])
+{
+    char *typeFunc;
+    typeFunc = strtok(text, ">");
+    typeFunc = strtok(NULL, ">");
+	return typeFunc;
+}
+
+char *getTypeOfArray(char text[])
+{
+	char *typeArray;
+	typeArray = strtok(text, ",");
+	typeArray = strtok(NULL, ",");
+	typeArray = strtok(typeArray, ")");
+	
+	return typeArray;
+}
+
 void printSimbTable(){
 	int indx;
 	for (indx = 0;indx<TableHash; indx++) {

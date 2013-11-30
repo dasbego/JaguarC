@@ -24,7 +24,7 @@ char *getTypeOfArray(char text[])
 }
 
 int main(void){
-	char str1[] = "arrays[array(0..2,int)]";
+	char str1[] = "array(0..2,int)";
 	char *x = getTypeOfArray(str1);
 	
 	printf("%s\n", x);
